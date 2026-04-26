@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KefirSahara ⵜⵉⴼⵉⵏⴱⵖ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Noto+Sans+Tifinagh&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===================================================
+   KEFIRSAHARA v4 — SAHARAN AMAZIGH PALETTE
+   Colors: Sand · Terracotta · Indigo · Saffron · Teal
+   =================================================== */
+:root {
+  /* Saharan Palette — vivid & warm */
+  --sand:       #E8C97A;   /* golden sand */
+  --sand2:      #F5DFA0;   /* light sand */
+  --terra:      #C8512A;   /* terracotta */
+  --terra2:     #E8713F;   /* warm terracotta */
+  --saffron:    #F0A500;   /* saffron */
+  --saffron2:   #FFD060;   /* light saffron */
+  --indigo:     #3B4FAA;   /* tuareg indigo */
+  --indigo2:    #6278D4;   /* light indigo */
+  --teal:       #1BBFA0;   /* oasis teal */
+  --teal2:      #3DDEC0;   /* light teal */
+  --sky:        #5BAFD4;   /* saharan sky blue */
+  --rose:       #D45068;   /* desert rose */
+
+  /* Backgrounds — warm dark, NOT cold dark */
+  --bg:         #1A120A;   /* deep warm dark */
+  --bg2:        #221810;   /* card bg */
+  --bg3:        #2C2015;   /* hover */
+  --bg4:        #362818;   /* elevated */
+
+  /* Text */
+  --txt:        #F5ECD8;   /* warm white */
+  --txt2:       #C4A87A;   /* warm muted */
+  --txt3:       #8A7055;   /* very muted */
+
+  /* Cards & Borders */
+  --card:       rgba(255,220,160,0.05);
+  --card2:      rgba(255,220,160,0.09);
+  --border:     rgba(255,220,160,0.1);
+  --border2:    rgba(255,220,160,0.2);
+
+  /* Semantic */
+  --ok:    #2DC88A;
+  --warn:  #F0A500;
+  --err:   #E05252;
+}
+
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Tajawal',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+  direction:rtl;
+  font-size:14px;
+  line-height:1.6;
+}
+body.ltr{direction:ltr;font-family:'Inter',sans-serif}
+
+/* Saharan texture background */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 15%, rgba(240,165,0,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 60% at 90% 80%, rgba(200,81,42,0.07) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 55% 45%, rgba(27,191,160,0.05) 0%,transparent 50%);
+}
+/* Amazigh geometric diamond overlay */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025;
+  background-image:
+    repeating-linear-gradient(45deg,var(--sand) 0,var(--sand) 1px,transparent 1px,transparent 24px),
+    repeating-linear-gradient(-45deg,var(--sand) 0,var(--sand) 1px,transparent 1px,transparent 24px);
+}
+
+/* ===== NAVBAR ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:56px;
+  background:rgba(26,18,10,0.97);
+  border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;gap:12px;
+  padding:0 16px;
+  backdrop-filter:blur(18px);
+}
+/* Saffron top accent line */
+nav::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--terra),var(--saffron),var(--teal),var(--indigo));
+}
+
+/* LOGO PLACEHOLDER */
+.logo-placeholder{
+  width:40px;height:40px;flex-shrink:0;
+  border:1.5px dashed rgba(240,165,0,0.5);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;
+  position:relative;overflow:hidden;
+  background:rgba(240,165,0,0.05);
+}
+.logo-placeholder:hover{border-color:var(--saffron);background:rgba(240,165,0,0.1)}
+.logo-placeholder-txt{font-size:9px;color:var(--txt3);text-align:center;line-height:1.3;font-family:'Inter',sans-serif}
+.logo-placeholder-icon{font-size:18px;display:block;margin-bottom:1px}
+
+.brand-text{display:flex;flex-direction:column;gap:1px}
+.brand-name{
+  font-size:17px;font-weight:800;
+  background:linear-gradient(135deg,var(--saffron),var(--sand),var(--terra2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:0.3px;line-height:1;
+}
+.brand-sub{
+  font-family:'Noto Sans Tifinagh',serif;
+  font-size:10px;color:rgba(240,165,0,0.55);
+  letter-spacing:1.5px;
+}
+
+.nav-tabs{display:flex;gap:1px;align-items:center;flex:1;margin:0 12px;overflow-x:auto}
+.nav-tabs::-webkit-scrollbar{display:none}
+.ntab{
+  background:none;border:none;
+  color:var(--txt3);
+  font-size:12px;font-weight:600;
+  padding:5px 10px;border-radius:5px;
+  cursor:pointer;transition:all 0.18s;
+  display:flex;align-items:center;gap:5px;
+  white-space:nowrap;flex-shrink:0;
+  font-family:inherit;
+}
+.ntab:hover{background:rgba(240,165,0,0.08);color:var(--sand)}
+.ntab.active{background:rgba(240,165,0,0.12);color:var(--saffron)}
+.ti{font-size:13px}
+
+.nav-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.nicon{
+  width:32px;height:32px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;transition:all 0.18s;position:relative;
+}
+.nicon:hover{border-color:var(--border2);background:var(--card2)}
+.ndot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--err);border-radius:50%;border:1.5px solid var(--bg)}
+
+/* Language switcher */
+.lang-switch{
+  display:flex;align-items:center;gap:2px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:6px;padding:2px;
+}
+.lang-btn{
+  background:none;border:none;
+  color:var(--txt3);font-size:10.5px;font-weight:700;
+  padding:3px 8px;border-radius:4px;cursor:pointer;
+  transition:all 0.15s;font-family:'Inter',sans-serif;
+  white-space:nowrap;
+}
+.lang-btn:hover{color:var(--txt)}
+.lang-btn.active{background:var(--saffron);color:#1A120A}
+
+.btn-ai{
+  background:linear-gradient(135deg,var(--indigo),#2A3A8A);
+  border:1px solid rgba(98,120,212,0.4);
+  color:var(--sand2);padding:5px 12px;border-radius:6px;
+  font-size:11.5px;font-weight:700;cursor:pointer;transition:all 0.18s;
+  font-family:inherit;
+}
+.btn-ai:hover{border-color:var(--indigo2);box-shadow:0 0 12px rgba(59,79,170,0.3)}
+.inapi{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.22);
+  color:var(--saffron);padding:2px 8px;border-radius:11px;
+  font-size:9.5px;font-weight:700;white-space:nowrap;
+}
+
+/* ===== LAYOUT ===== */
+.layout{display:flex;padding-top:56px;min-height:100vh;position:relative;z-index:1}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:196px;min-height:calc(100vh - 56px);
+  background:rgba(26,18,10,0.9);
+  border-left:1px solid var(--border);
+  position:fixed;right:0;top:56px;bottom:0;
+  overflow-y:auto;z-index:100;padding:10px 0;
+  backdrop-filter:blur(12px);
+}
+body.ltr .sidebar{border-left:none;border-right:1px solid var(--border);right:auto;left:0}
+.sidebar::-webkit-scrollbar{width:2px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(240,165,0,0.15);border-radius:2px}
+
+.sb-sec{
+  padding:7px 14px 3px;
+  font-size:8.5px;color:var(--txt3);
+  text-transform:uppercase;letter-spacing:2px;font-weight:700;
+}
+.sb-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 16px;color:var(--txt3);
+  cursor:pointer;transition:all 0.15s;
+  font-size:12.5px;font-weight:500;position:relative;
+}
+.sb-item:hover{background:rgba(240,165,0,0.07);color:var(--sand)}
+.sb-item.active{background:rgba(240,165,0,0.1);color:var(--saffron)}
+.sb-item.active::after{
+  content:'';position:absolute;right:0;top:6px;bottom:6px;
+  width:2.5px;background:var(--saffron);border-radius:2px 0 0 2px;
+}
+body.ltr .sb-item.active::after{right:auto;left:0;border-radius:0 2px 2px 0}
+.sb-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.sb-badge{
+  margin-right:auto;background:rgba(224,82,82,0.75);
+  color:white;font-size:8.5px;padding:1px 5px;border-radius:9px;font-weight:700;
+}
+body.ltr .sb-badge{margin-right:0;margin-left:auto}
+.sb-footer{
+  margin:14px 10px 0;padding:10px;
+  background:rgba(240,165,0,0.06);
+  border:1px solid rgba(240,165,0,0.12);
+  border-radius:8px;text-align:center;
+}
+.sb-tif{font-family:'Noto Sans Tifinagh',serif;font-size:17px;color:var(--saffron);margin-bottom:3px}
+
+/* ===== MAIN ===== */
+.main{margin-right:196px;flex:1;padding:20px;min-height:calc(100vh - 56px)}
+body.ltr .main{margin-right:0;margin-left:196px}
+.page{display:none}.page.active{display:block}
+
+/* ===== PAGE HEADER ===== */
+.ph{margin-bottom:16px}
+.ph-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+.ph-title{font-size:22px;font-weight:800;color:var(--txt);letter-spacing:-0.3px}
+.ph-sub{font-size:11.5px;color:var(--txt3)}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+}
+.card:hover{border-color:var(--border2)}
+.section-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:14px;margin-bottom:12px;
+}
+.card-title{
+  font-size:13px;font-weight:700;color:var(--txt);
+  margin-bottom:12px;display:flex;align-items:center;gap:6px;
+}
+
+/* ===== KPI ===== */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+  position:relative;overflow:hidden;
+  cursor:pointer;transition:all 0.2s;
+}
+.kpi:hover{border-color:var(--border2);transform:translateY(-1px)}
+.kpi::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  border-radius:10px 10px 0 0;
+}
+.kpi-teal::before{background:var(--teal)}
+.kpi-saf::before{background:var(--saffron)}
+.kpi-ind::before{background:var(--indigo2)}
+.kpi-ter::before{background:var(--terra2)}
+.kpi-lbl{font-size:9.5px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px}
+.kpi-val{font-size:26px;font-weight:900;color:var(--txt);font-family:'Space Mono',monospace;line-height:1}
+.kpi-unit{font-size:11px;color:var(--txt3)}
+.kpi-trend{font-size:10px;margin-top:5px}
+.t-up{color:var(--teal2)}.t-dn{color:var(--err)}.t-neu{color:var(--txt3)}
+
+/* ===== ALERTS ===== */
+.alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.alert{border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid;cursor:pointer;transition:all 0.18s}
+.alert:hover{transform:translateY(-1px)}
+.a-warn{background:rgba(240,165,0,0.08);border-color:rgba(240,165,0,0.2)}
+.a-info{background:rgba(27,191,160,0.07);border-color:rgba(27,191,160,0.18)}
+.a-danger{background:rgba(224,82,82,0.08);border-color:rgba(224,82,82,0.2)}
+.a-icon{font-size:18px;flex-shrink:0}
+.a-title{font-size:11.5px;font-weight:700;color:var(--txt)}
+.a-desc{font-size:10px;color:var(--txt3);margin-top:1px}
+
+/* ===== DASHBOARD GRID ===== */
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+
+/* ===== ACTIVITY ===== */
+.act-list{list-style:none}
+.act-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,220,160,0.05)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.act-text{font-size:12px;color:var(--txt2);line-height:1.5}
+.act-time{font-size:10px;color:var(--txt3);margin-top:1px}
+
+/* ===== BADGES ===== */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:11px;font-size:10px;font-weight:700}
+.b-ok{background:rgba(45,200,138,0.12);color:var(--ok)}
+.b-warn{background:rgba(240,165,0,0.12);color:var(--warn)}
+.b-exp{background:rgba(224,82,82,0.12);color:var(--err)}
+.b-r1{background:rgba(240,193,74,0.12);color:#F0C14A}
+.b-r2{background:rgba(200,81,42,0.12);color:var(--terra2)}
+.b-r3{background:rgba(91,175,212,0.12);color:var(--sky)}
+.b-el{background:rgba(240,165,0,0.12);color:var(--saffron)}
+.b-ind{background:rgba(59,79,170,0.15);color:var(--indigo2)}
+.mono{font-family:'Space Mono',monospace;font-size:10.5px}
+
+/* ===== TABLES ===== */
+.btable{width:100%;border-collapse:collapse;font-size:12px}
+.btable th{
+  text-align:right;padding:8px 10px;
+  color:var(--txt3);font-size:10px;
+  text-transform:uppercase;letter-spacing:0.8px;
+  border-bottom:1px solid var(--border);font-weight:700;
+}
+body.ltr .btable th{text-align:left}
+.btable td{padding:9px 10px;border-bottom:1px solid rgba(255,220,160,0.04);color:var(--txt2);vertical-align:middle}
+.btable tr:last-child td{border-bottom:none}
+.btable tr:hover td{background:rgba(255,220,160,0.02)}
+
+/* ===== FORMS ===== */
+.frow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:9px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.flbl{font-size:10px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:0.8px}
+.finput{
+  background:rgba(255,220,160,0.04);
+  border:1px solid var(--border);
+  border-radius:7px;padding:8px 10px;
+  color:var(--txt);font-family:inherit;font-size:13px;
+  outline:none;transition:border-color 0.18s;
+  direction:inherit;width:100%;
+}
+.finput:focus{border-color:rgba(240,165,0,0.5);background:rgba(255,220,160,0.06)}
+.finput::placeholder{color:var(--txt3)}
+select.finput option{background:#221810;color:var(--txt)}
+
+/* ===== BUTTONS ===== */
+.btn-primary{
+  background:linear-gradient(135deg,var(--terra),var(--terra2));
+  color:white;border:none;padding:8px 16px;border-radius:7px;
+  font-family:inherit;font-weight:700;font-size:12px;
+  cursor:pointer;transition:all 0.18s;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(200,81,42,0.35)}
+
+.btn-saf{
+  background:linear-gradient(135deg,var(--saffron),var(--sand));
+  color:#1A120A;border:none;padding:8px 14px;border-radius:7px;
+  font-family:inherit;font-weight:800;font-size:12px;cursor:pointer;transition:all 0.18s;
+}
+.btn-saf:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(240,165,0,0.3)}
+
+.btn-teal{background:rgba(27,191,160,0.12);color:var(--teal2);border:1px solid rgba(27,191,160,0.25);padding:5px 10px;border-radius:6px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.18s}
+.btn-teal:hover{background:rgba(27,191,160,0.22)}
+.btn-out{background:var(--card);color:var(--txt2);border:1px solid var(--border2);padding:5px 10px;border-radius:6px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.18s}
+.btn-out:hover{border-color:var(--saffron);color:var(--saffron)}
+.btn-edit{background:rgba(59,79,170,0.12);color:var(--indigo2);border:1px solid rgba(59,79,170,0.22);padding:4px 8px;border-radius:5px;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-edit:hover{background:rgba(59,79,170,0.22)}
+.btn-del{background:rgba(224,82,82,0.1);color:var(--err);border:1px solid rgba(224,82,82,0.2);padding:4px 8px;border-radius:5px;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn-del:hover{background:rgba(224,82,82,0.2)}
+
+/* ===== PROGRESS ===== */
+.prog-bar{background:rgba(255,220,160,0.06);border-radius:3px;height:5px;margin-top:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width 0.5s ease}
+
+/* ===== MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;padding:20px;width:500px;max-width:92vw;
+  max-height:80vh;overflow-y:auto;direction:inherit;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-title{font-size:16px;font-weight:800;color:var(--txt)}
+.modal-close{background:none;border:none;color:var(--txt3);font-size:20px;cursor:pointer;transition:color 0.15s;line-height:1}
+.modal-close:hover{color:var(--txt)}
+.modal-footer{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+
+/* ===== CONFIRM ===== */
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:3000;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.confirm-overlay.open{display:flex}
+.confirm-box{background:var(--bg2);border:1px solid rgba(224,82,82,0.3);border-radius:10px;padding:20px;width:320px;text-align:center}
+.confirm-title{font-size:14px;font-weight:800;color:var(--txt);margin-bottom:6px}
+.confirm-desc{font-size:12px;color:var(--txt3);margin-bottom:16px;line-height:1.6}
+.confirm-btns{display:flex;gap:8px;justify-content:center}
+.btn-confirm-del{background:var(--err);color:white;border:none;padding:7px 18px;border-radius:6px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.btn-cancel{background:var(--card2);color:var(--txt2);border:1px solid var(--border2);padding:7px 18px;border-radius:6px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
+
+/* ===== QR CARDS ===== */
+.qr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.qr-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all 0.22s}
+.qr-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(27,191,160,0.12)}
+.qr-box{width:78px;height:78px;margin:0 auto 10px;background:white;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.qr-name{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.qr-row{display:flex;justify-content:space-between;font-size:10.5px;margin-bottom:3px}
+.qr-key{color:var(--txt3)}.qr-val{color:var(--txt2);font-family:'Space Mono',monospace;font-size:10px}
+.qr-actions{display:flex;gap:5px;margin-top:10px}
+
+/* ===== CHAT ===== */
+.chat-layout{display:grid;grid-template-columns:1fr 250px;gap:12px;height:470px}
+.chat-win{background:rgba(34,24,16,0.8);border:1px solid var(--border);border-radius:10px;display:flex;flex-direction:column;overflow:hidden}
+.chat-hdr{padding:10px 14px;background:rgba(34,24,16,0.9);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px}
+.bot-av{width:34px;height:34px;background:linear-gradient(135deg,var(--indigo),var(--teal));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;flex-shrink:0}
+.bot-on{position:absolute;bottom:0;left:0;width:9px;height:9px;background:var(--teal2);border-radius:50%;border:2px solid var(--bg)}
+.bot-name{font-size:13px;font-weight:700;color:var(--txt)}
+.bot-stat{font-size:10px;color:var(--teal2)}
+.thinking{display:none;align-items:center;gap:7px;padding:6px 14px}
+.thinking.show{display:flex}
+.thinking span{font-size:11px;color:var(--txt3)}
+.dot-anim{display:flex;gap:3px}
+.dot-anim i{width:5px;height:5px;border-radius:50%;background:var(--saffron);animation:db 1.2s infinite;display:block}
+.dot-anim i:nth-child(2){animation-delay:.2s}.dot-anim i:nth-child(3){animation-delay:.4s}
+@keyframes db{0%,80%,100%{transform:scale(0);opacity:0.3}40%{transform:scale(1);opacity:1}}
+.msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:11px}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:rgba(255,220,160,0.08);border-radius:3px}
+.msg{display:flex;gap:7px;align-items:flex-start}
+.msg.user{flex-direction:row-reverse}
+.msg-av{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.msg-av.bot{background:linear-gradient(135deg,var(--indigo),var(--teal))}
+.msg-av.user{background:linear-gradient(135deg,var(--terra),var(--saffron))}
+.bubble{max-width:74%;padding:8px 12px;border-radius:11px;font-size:12.5px;line-height:1.65;word-break:break-word}
+.msg.bot .bubble{background:rgba(59,79,170,0.15);border:1px solid rgba(59,79,170,0.22);color:var(--txt2);border-radius:3px 11px 11px 11px}
+.msg.user .bubble{background:rgba(200,81,42,0.15);border:1px solid rgba(200,81,42,0.22);color:var(--txt);border-radius:11px 3px 11px 11px}
+.quick-pills{display:flex;flex-wrap:wrap;gap:5px;padding:0 13px 9px}
+.qpill{background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.18);color:var(--txt3);padding:4px 10px;border-radius:12px;font-size:10.5px;cursor:pointer;transition:all 0.15s;font-family:inherit}
+.qpill:hover{background:rgba(240,165,0,0.15);color:var(--sand);border-color:rgba(240,165,0,0.3)}
+.chat-in-area{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:7px}
+.chat-in{flex:1;background:rgba(255,220,160,0.04);border:1px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--txt);font-family:inherit;font-size:13px;outline:none;resize:none;direction:inherit}
+.chat-in:focus{border-color:rgba(240,165,0,0.4)}
+.chat-in::placeholder{color:var(--txt3)}
+.btn-send{width:36px;height:36px;background:linear-gradient(135deg,var(--indigo),var(--teal));border:none;border-radius:7px;color:white;font-size:14px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.btn-send:hover{transform:scale(1.07)}
+
+/* ===== SENSORY ===== */
+.eval-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.eval-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px}
+.star{font-size:16px;cursor:pointer;transition:transform 0.1s;color:rgba(255,220,160,0.12)}
+.star:hover{transform:scale(1.2)}.star.on{color:var(--saffron)}
+.crit-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--txt3);margin-bottom:3px}
+.crit-score{color:var(--sand2);font-weight:700}
+
+/* ===== CULTURAL ===== */
+.cultural-hero{
+  background:linear-gradient(135deg,rgba(200,81,42,0.12),rgba(240,165,0,0.08),rgba(27,191,160,0.05));
+  border:1px solid var(--border2);border-radius:14px;
+  padding:28px;text-align:center;position:relative;overflow:hidden;margin-bottom:16px;
+}
+.cultural-hero::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(60deg,rgba(240,165,0,0.03) 0,rgba(240,165,0,0.03) 1px,transparent 1px,transparent 18px),
+             repeating-linear-gradient(-60deg,rgba(240,165,0,0.03) 0,rgba(240,165,0,0.03) 1px,transparent 1px,transparent 18px);
+  pointer-events:none;
+}
+.ch-tif-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Tifinagh',serif;font-size:80px;color:rgba(240,165,0,0.04);pointer-events:none;letter-spacing:12px}
+.ch-logo{font-family:'Noto Sans Tifinagh',serif;font-size:34px;color:var(--saffron);margin-bottom:6px;text-shadow:0 0 20px rgba(240,165,0,0.25)}
+.ch-name{font-size:24px;font-weight:900;color:var(--txt);margin-bottom:4px}
+.ch-desc{font-size:12px;color:var(--txt3);max-width:460px;margin:0 auto 18px;line-height:1.75}
+
+.cult-tabs{display:flex;gap:5px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.cult-tab{background:var(--card);border:1px solid var(--border);color:var(--txt3);padding:5px 12px;border-radius:6px;font-family:inherit;font-size:11.5px;font-weight:600;cursor:pointer;transition:all 0.18s}
+.cult-tab:hover,.cult-tab.active{background:rgba(240,165,0,0.12);border-color:rgba(240,165,0,0.28);color:var(--saffron)}
+.cult-section{display:none}.cult-section.active{display:block}
+
+.tuareg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.tcard{
+  background:linear-gradient(135deg,rgba(200,81,42,0.07),rgba(240,165,0,0.04));
+  border:1px solid var(--border);border-radius:10px;padding:14px;
+  transition:all 0.22s;
+}
+.tcard:hover{border-color:var(--border2);transform:translateY(-2px)}
+.tcard-icon{font-size:26px;margin-bottom:7px}
+.tcard-title{font-size:13px;font-weight:700;color:var(--saffron);margin-bottom:5px}
+.tcard-body{font-size:11.5px;color:var(--txt3);line-height:1.7}
+
+.timeline{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,220,160,0.06)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--saffron);background:rgba(240,165,0,0.18);flex-shrink:0;margin-top:4px}
+.tl-year{font-family:'Space Mono',monospace;font-size:10px;color:var(--saffron);font-weight:700;width:58px;flex-shrink:0;margin-top:2px}
+.tl-content{flex:1}
+.tl-title{font-size:12.5px;font-weight:700;color:var(--txt);margin-bottom:3px}
+.tl-desc{font-size:11px;color:var(--txt3);line-height:1.6}
+
+.geo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.geo-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:13px}
+.geo-title{font-size:12.5px;font-weight:700;color:var(--txt);margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.geo-fact{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,220,160,0.05);font-size:11.5px}
+.geo-key{color:var(--txt3)}.geo-val{color:var(--txt2);font-weight:600}
+.geo-fact:last-child{border-bottom:none}
+
+/* ===== PROD SHOWCASE ===== */
+.prod-showcase{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.prod-card{border-radius:10px;padding:14px 12px;text-align:center;border:1px solid;transition:all 0.22s;cursor:pointer;position:relative;overflow:hidden}
+.prod-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.prod-card:hover{transform:translateY(-2px)}
+.pc-r1{background:rgba(240,193,74,0.06);border-color:rgba(240,193,74,0.18)}.pc-r1::before{background:#F0C14A}
+.pc-r2{background:rgba(200,81,42,0.06);border-color:rgba(200,81,42,0.18)}.pc-r2::before{background:var(--terra2)}
+.pc-r3{background:rgba(91,175,212,0.06);border-color:rgba(91,175,212,0.18)}.pc-r3::before{background:var(--sky)}
+.pc-el{background:rgba(240,165,0,0.07);border-color:rgba(240,165,0,0.22)}.pc-el::before{background:var(--saffron)}
+.pc-emoji{font-size:26px;margin-bottom:6px;display:block}
+.pc-name{font-size:12.5px;font-weight:700;color:var(--txt);margin-bottom:2px}
+.pc-tag{font-size:9.5px;color:var(--txt3);margin-bottom:6px}
+.pc-cfu{font-size:10.5px;font-family:'Space Mono',monospace}
+
+/* ===== B2B ===== */
+.b2b-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.partner-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;transition:all 0.22s;cursor:pointer}
+.partner-card:hover{border-color:var(--border2)}
+.p-logo{width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:7px}
+.p-name{font-size:12.5px;font-weight:700;color:var(--txt);margin-bottom:2px}
+.p-type{font-size:10px;color:var(--txt3);margin-bottom:8px}
+.p-sv{font-size:16px;font-weight:900;color:var(--saffron);font-family:'Space Mono',monospace}
+.p-sk{font-size:8.5px;color:var(--txt3);text-transform:uppercase}
+
+/* ===== DISTRIB MAP ===== */
+.distrib-map{background:rgba(27,191,160,0.04);border:1px solid rgba(27,191,160,0.12);border-radius:10px;padding:13px;margin-bottom:12px;min-height:200px;position:relative;overflow:hidden}
+.map-grid{position:absolute;inset:0;opacity:0.025;background-image:repeating-linear-gradient(0deg,var(--teal) 0,var(--teal) 1px,transparent 1px,transparent 32px),repeating-linear-gradient(90deg,var(--teal) 0,var(--teal) 1px,transparent 1px,transparent 32px)}
+.dnode{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.nd{width:10px;height:10px;border-radius:50%;border:2px solid var(--teal2);background:rgba(27,191,160,0.22);animation:pn 2s infinite}
+@keyframes pn{0%,100%{box-shadow:0 0 6px rgba(27,191,160,0.3)}50%{box-shadow:0 0 14px rgba(27,191,160,0.5)}}
+.nlbl{font-size:9px;color:var(--txt3);white-space:nowrap}.ncnt{font-size:8.5px;color:var(--teal2);font-weight:700}
+
+/* ===== SCI ===== */
+.sci-post{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:11px;transition:all 0.18s}
+.sci-post:hover{border-color:var(--border2)}
+.sci-tag{background:rgba(59,79,170,0.12);border:1px solid rgba(59,79,170,0.22);color:var(--indigo2);padding:2px 7px;border-radius:10px;font-size:9.5px}
+.sci-metric{font-size:11px;color:var(--txt3);cursor:pointer}.sci-metric:hover{color:var(--txt2)}
+
+/* ===== TICKETS ===== */
+.ticket{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:10px 12px;display:flex;gap:8px;transition:all 0.15s;margin-bottom:7px}
+.ticket:hover{border-color:var(--border2)}
+.t-prio{width:3px;border-radius:3px;align-self:stretch;flex-shrink:0}
+.pr-h{background:var(--err)}.pr-m{background:var(--warn)}.pr-l{background:var(--teal)}
+.t-id{font-size:9.5px;color:var(--txt3);font-family:'Space Mono',monospace;margin-bottom:2px}
+.t-subj{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:2px}
+.t-prev{font-size:10.5px;color:var(--txt3)}
+.t-meta{margin-right:auto;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+body.ltr .t-meta{margin-right:0;margin-left:auto}
+.t-time{font-size:9.5px;color:var(--txt3)}
+
+/* ===== TOAST ===== */
+#toast-c{position:fixed;top:66px;left:18px;z-index:9999;display:flex;flex-direction:column;gap:5px;pointer-events:none}
+.toast{
+  background:rgba(26,18,10,0.97);
+  border:1px solid var(--border2);
+  border-radius:9px;padding:10px 13px;min-width:215px;
+  display:flex;gap:8px;align-items:flex-start;
+  animation:tin .25s ease;
+  box-shadow:0 4px 18px rgba(0,0,0,0.4);
+}
+@keyframes tin{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:translateX(0)}}
+.t-icon{font-size:15px;flex-shrink:0}
+.t-title{font-size:12px;font-weight:700;color:var(--txt)}
+.t-desc{font-size:10px;color:var(--txt3);margin-top:1px}
+
+/* ===== KFLOAT ===== */
+.kfloat{position:fixed;bottom:16px;left:16px;z-index:500}
+body.ltr .kfloat{left:auto;right:16px}
+.kfbtn{width:44px;height:44px;background:linear-gradient(135deg,var(--indigo),var(--teal));border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 3px 14px rgba(59,79,170,0.4);transition:all 0.18s;position:relative}
+.kfbtn:hover{transform:scale(1.08)}
+.kfbadge{position:absolute;top:-2px;right:-2px;width:15px;height:15px;background:var(--err);border-radius:50%;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:7.5px;color:white;font-weight:700}
+
+/* ===== ANALYTICS PROGRESS ===== */
+.an-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+
+/* ===== FOOTER ===== */
+footer{
+  margin-right:196px;
+  background:rgba(26,18,10,0.96);
+  border-top:1px solid var(--border);
+  padding:10px 18px;display:flex;align-items:center;gap:12px;
+  position:relative;z-index:1;flex-wrap:wrap;
+}
+body.ltr footer{margin-right:0;margin-left:196px}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--saffron),var(--terra),transparent);opacity:0.3}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,220,160,0.1);border-radius:4px}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .32s ease forwards}
+
+/* ===== EMPTY STATE ===== */
+.empty-state{text-align:center;padding:36px;color:var(--txt3)}
+.empty-state-icon{font-size:36px;margin-bottom:10px;display:block}
+.empty-state-title{font-size:14px;font-weight:700;color:var(--txt2);margin-bottom:4px}
+.empty-state-desc{font-size:12px;line-height:1.6}
+</style>
+</head>
+<body id="body-root">
+<div id="lang-body-class"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div style="display:flex;align-items:center;gap:9px;flex-shrink:0">
+    <!-- LOGO -->
+    <div style="width:42px;height:42px;flex-shrink:0;border-radius:8px;overflow:hidden;border:1px solid rgba(240,165,0,0.3)">
+      <img src="https://i.ibb.co/35b9dQ4y/b1134236-d41a-44f8-a4c4-791e5d5e2a67.png" 
+           alt="KefirSahara Logo" 
+           style="width:100%;height:100%;object-fit:cover"
+           onerror="this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(135deg,#C8512A,#F0A500);display:flex;align-items:center;justify-content:center;font-family:Noto Sans Tifinagh,serif;font-size:20px;color:white\'>ⵜ</div>'"
+      >
+    </div>
+    <div class="brand-text">
+      <div class="brand-name">KefirSahara</div>
+      <div class="brand-sub">ⵜⵉⴼⵉⵏⴱⵖ Tifinagh</div>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="ntab active" id="nt-dashboard" onclick="goto('dashboard',this)"><span class="ti">📊</span><span data-key="nav_dash">التحكم</span></button>
+    <button class="ntab" id="nt-erp" onclick="goto('erp',this)"><span class="ti">🏭</span><span data-key="nav_prod">الإنتاج</span></button>
+    <button class="ntab" id="nt-qr" onclick="goto('qr',this)"><span class="ti">🔲</span>QR</button>
+    <button class="ntab" id="nt-kefirbot" onclick="goto('kefirbot',this)"><span class="ti">🤖</span>KefirBot</button>
+    <button class="ntab" id="nt-cultural" onclick="goto('cultural',this)"><span class="ti">🏺</span><span data-key="nav_cult">الثقافي</span></button>
+    <button class="ntab" id="nt-analytics" onclick="goto('analytics',this)">📈 Analytics</button>
+    <button class="ntab" id="nt-b2b" onclick="goto('b2b',this)"><span class="ti">🤝</span>B2B</button>
+  </div>
+
+  <div class="nav-right">
+    <!-- LANGUAGE SWITCHER -->
+    <div class="lang-switch">
+      <button class="lang-btn active" id="lang-ar" onclick="setLang('ar')">AR</button>
+      <button class="lang-btn" id="lang-fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="nicon" onclick="toast('📦',t('notif_stock'),t('notif_stock_desc'))"><span>🔔</span><span class="ndot"></span></div>
+    <div class="nicon" onclick="goto('clients',null)">🎫</div>
+    <button class="btn-ai" onclick="goto('kefirbot',null)">🤖 KefirBot AI</button>
+
+    <div class="inapi">🏅 INAPI</div>
+    <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--terra),var(--saffron));display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;flex-shrink:0">👤</div>
+  </div>
+</nav>
+
+<div class="layout">
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sb-sec" data-key="sb_main">الوحدات الرئيسية</div>
+  <div class="sb-item active" id="si-dashboard" onclick="goto('dashboard',null)"><span class="sb-icon">📊</span><span data-key="nav_dash">لوحة التحكم</span></div>
+  <div class="sb-item" id="si-erp" onclick="goto('erp',null)"><span class="sb-icon">🏭</span><span data-key="nav_prod">إدارة الإنتاج</span><span class="sb-badge" id="erp-badge">0</span></div>
+  <div class="sb-item" id="si-qr" onclick="goto('qr',null)"><span class="sb-icon">🔲</span><span data-key="nav_qr">نظام QR</span></div>
+  <div class="sb-item" id="si-sensory" onclick="goto('sensory',null)"><span class="sb-icon">⭐</span><span data-key="nav_sensory">التقييم الحسي</span></div>
+  <div class="sb-item" id="si-clients" onclick="goto('clients',null)"><span class="sb-icon">🎫</span><span data-key="nav_clients">خدمة العملاء</span><span class="sb-badge" id="client-badge">0</span></div>
+  <div class="sb-item" id="si-kefirbot" onclick="goto('kefirbot',null)"><span class="sb-icon">🤖</span>KefirBot AI</div>
+  <div class="sb-sec" style="margin-top:10px" data-key="sb_biz">الأعمال</div>
+  <div class="sb-item" id="si-b2b" onclick="goto('b2b',null)"><span class="sb-icon">🤝</span><span data-key="nav_b2b">بوابة B2B</span><span class="sb-badge" id="b2b-badge">0</span></div>
+  <div class="sb-item" id="si-distributors" onclick="goto('distributors',null)"><span class="sb-icon">🗺</span><span data-key="nav_dist">شبكة الموزعين</span></div>
+  <div class="sb-item" id="si-analytics" onclick="goto('analytics',null)"><span class="sb-icon">📈</span>Analytics</div>
+  <div class="sb-sec" style="margin-top:10px" data-key="sb_know">الهوية والمعرفة</div>
+  <div class="sb-item" id="si-scientific" onclick="goto('scientific',null)"><span class="sb-icon">🔬</span><span data-key="nav_sci">الفضاء العلمي</span></div>
+  <div class="sb-item" id="si-cultural" onclick="goto('cultural',null)"><span class="sb-icon">🏺</span><span data-key="nav_cult">الفضاء الثقافي</span></div>
+  <div class="sb-footer">
+    <div class="sb-tif">ⵜⵉⴼⵉⵏⴱⵖ</div>
+    <div style="font-size:8.5px;color:var(--txt3);line-height:1.5" data-key="univ">جامعة تمنراست<br>أبريل 2026</div>
+    <div class="inapi" style="margin-top:7px;font-size:8.5px">🏅 Claim 5 + 6</div>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="main">
+
+<!-- ====== DASHBOARD ====== -->
+<div id="page-dashboard" class="page active fade-up">
+  <div class="ph">
+    <div class="ph-row">
+      <div class="ph-title" data-key="dash_title">لوحة التحكم الرئيسية</div>
+      <div class="inapi">Claim 5 + 6 ✅</div>
+    </div>
+    <div class="ph-sub" data-key="dash_sub">أبريل 2026 | تمنراست</div>
+  </div>
+
+  <!-- Empty state when no data -->
+  <div id="dash-empty" style="display:none">
+    <div class="section-card">
+      <div class="empty-state">
+        <span class="empty-state-icon">📊</span>
+        <div class="empty-state-title" data-key="empty_title">لا توجد بيانات بعد</div>
+        <div class="empty-state-desc" data-key="empty_desc">أضف دفعات إنتاج وشركاء B2B لرؤية الإحصاءات هنا</div>
+        <button class="btn-saf" style="margin-top:12px" onclick="goto('erp',null)" data-key="add_batch">➕ إضافة دفعة إنتاج</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dash-content">
+    <div class="kpi-grid">
+      <div class="kpi kpi-teal">
+        <div class="kpi-lbl" data-key="kpi_sales">المبيعات / شهر</div>
+        <div class="kpi-val"><span id="kpi-bottles">0</span><span class="kpi-unit"> <span data-key="unit_bottle">قار</span></span></div>
+        <div class="kpi-trend t-neu" id="kpi-trend-sales">—</div>
+      </div>
+      <div class="kpi kpi-saf">
+        <div class="kpi-lbl" data-key="kpi_partners">شركاء B2B</div>
+        <div class="kpi-val"><span id="kpi-partners">0</span></div>
+        <div class="kpi-trend t-neu" data-key="kpi_active">شركاء نشطون</div>
+      </div>
+      <div class="kpi kpi-ind">
+        <div class="kpi-lbl">CFU <span data-key="kpi_avg">متوسط</span></div>
+        <div class="kpi-val"><span id="kpi-cfu">—</span></div>
+        <div class="kpi-trend t-up" id="kpi-cfu-trend">—</div>
+      </div>
+      <div class="kpi kpi-ter">
+        <div class="kpi-lbl" data-key="kpi_batches">دفعات إنتاج</div>
+        <div class="kpi-val"><span id="kpi-batches">0</span></div>
+        <div class="kpi-trend t-neu" id="kpi-status-trend">—</div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="card">
+        <div class="card-title" data-key="recent_batches">📋 آخر الدفعات المسجلة</div>
+        <table class="btable">
+          <thead><tr>
+            <th data-key="th_batch">الدفعة</th>
+            <th data-key="th_product">المنتج</th>
+            <th data-key="th_qty">الكمية</th>
+            <th>pH</th>
+            <th data-key="th_status">الحالة</th>
+          </tr></thead>
+          <tbody id="dash-recent-tbody">
+            <tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:18px" data-key="no_data">لا توجد دفعات بعد</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title" data-key="dash_overview">📊 نظرة عامة</div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding-top:4px">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px">
+              <span style="color:var(--txt3)" data-key="ok_batches">دفعات جاهزة</span>
+              <span style="color:var(--ok);font-weight:700" id="ov-ok">0</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="ov-ok-bar" style="background:var(--ok);width:0%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px">
+              <span style="color:var(--txt3)" data-key="warn_batches">تقترب من الانتهاء</span>
+              <span style="color:var(--warn);font-weight:700" id="ov-warn">0</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="ov-warn-bar" style="background:var(--warn);width:0%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px">
+              <span style="color:var(--txt3)" data-key="exp_batches">منتهية الصلاحية</span>
+              <span style="color:var(--err);font-weight:700" id="ov-exp">0</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="ov-exp-bar" style="background:var(--err);width:0%"></div></div>
+          </div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+            <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px">
+              <span style="color:var(--txt3)" data-key="active_partners">شركاء B2B نشطون</span>
+              <span style="color:var(--saffron);font-weight:700" id="ov-b2b">0</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="ov-b2b-bar" style="background:var(--saffron);width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== ERP ====== -->
+<div id="page-erp" class="page">
+  <div class="ph">
+    <div class="ph-row"><div class="ph-title" data-key="erp_title">🏭 إدارة الإنتاج</div></div>
+    <div class="ph-sub" data-key="erp_sub">إضافة · تعديل · حذف الدفعات</div>
+  </div>
+  <div class="section-card">
+    <div class="card-title" id="erp-form-title" data-key="add_batch_title">➕ تسجيل دفعة جديدة</div>
+    <div class="frow">
+      <div class="fg"><label class="flbl" data-key="f_product">المنتج</label>
+        <select class="finput" id="erp-product">
+          <option value="R1">R1 — نجمة الأرض</option>
+          <option value="R2">R2 — الكركديه</option>
+          <option value="R3">R3 — الزنجبيل</option>
+          <option value="EL">Elixir Tifinagh — خل كفير وظيفي 4 صيغ</option>
+        </select>
+      </div>
+      <div class="fg"><label class="flbl" data-key="f_qty">الكمية (قارورة)</label><input class="finput" id="erp-qty" type="number" min="1" placeholder="36"></div>
+      <div class="fg"><label class="flbl" data-key="f_temp">درجة الحرارة (°C)</label><input class="finput" id="erp-temp" type="number" placeholder="23"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="flbl">pH</label><input class="finput" id="erp-ph" type="number" step="0.1" placeholder="4.3"></div>
+      <div class="fg"><label class="flbl">CFU / مل</label><input class="finput" id="erp-cfu" placeholder=">6 log UFC/mL"></div>
+      <div class="fg"><label class="flbl" data-key="f_exp">تاريخ الصلاحية</label><input class="finput" id="erp-exp" type="date"></div>
+    </div>
+    <div class="frow" style="grid-template-columns:2fr 1fr">
+      <div class="fg"><label class="flbl" data-key="f_recipe">الوصفة</label>
+        <select class="finput" id="erp-recipe">
+          <option data-key="recipe1">صيغة أساسية — مكونات نباتية محلية</option>
+          <option data-key="recipe2">صيغة R2 — كركديه</option>
+          <option data-key="recipe3">صيغة Elixir — مكونات نباتية محلية صحراوية نادرة</option>
+        </select>
+      </div>
+      <div class="fg"><label class="flbl" data-key="f_action">الإجراء</label>
+        <div style="display:flex;gap:6px">
+          <button class="btn-saf" style="flex:1" onclick="erpSave()" data-key="save_batch">💾 حفظ</button>
+          <button class="btn-out" onclick="erpClear()">✕</button>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="erp-edit-id">
+  </div>
+
+  <div class="section-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="card-title" style="margin:0" data-key="batch_log">📋 سجل الدفعات</div>
+      <div style="font-size:10.5px;color:var(--txt3)"><span data-key="total">إجمالي:</span> <span id="erp-count" style="color:var(--teal2);font-weight:700">0</span> <span data-key="batch_word">دفعة</span></div>
+    </div>
+    <div id="erp-empty" class="empty-state" style="display:none">
+      <span class="empty-state-icon">🏭</span>
+      <div class="empty-state-title" data-key="no_batches">لا توجد دفعات مسجلة</div>
+      <div class="empty-state-desc" data-key="no_batches_desc">أضف أول دفعة إنتاج باستخدام النموذج أعلاه</div>
+    </div>
+    <table class="btable" id="erp-table" style="display:none">
+      <thead><tr>
+        <th data-key="th_batch">رقم الدفعة</th>
+        <th data-key="th_product">المنتج</th>
+        <th data-key="th_qty">الكمية</th>
+        <th>pH</th>
+        <th>CFU</th>
+        <th data-key="th_exp">الصلاحية</th>
+        <th data-key="th_status">الحالة</th>
+        <th data-key="th_actions">إجراءات</th>
+      </tr></thead>
+      <tbody id="erp-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ====== QR ====== -->
+<div id="page-qr" class="page">
+  <div class="ph">
+    <div class="ph-row"><div class="ph-title" data-key="qr_title">🔲 نظام QR الذكي — Claim 5</div><div class="inapi">🏅 محمي ببراءة اختراع</div></div>
+    <div class="ph-sub" data-key="qr_sub">كل قارورة تحمل QR فريد — اقتصاد دائري</div>
+  </div>
+  <div class="section-card" style="background:rgba(27,191,160,0.04);border-color:rgba(27,191,160,0.15)">
+    <div class="card-title" data-key="qr_gen">⚙ توليد QR لدفعة</div>
+    <div class="frow" style="grid-template-columns:repeat(4,1fr)">
+      <div class="fg"><label class="flbl" data-key="f_batch">الدفعة</label>
+        <select class="finput" id="qr-batch-sel">
+          <option data-key="select_batch">اختر دفعة...</option>
+        </select>
+      </div>
+      <div class="fg"><label class="flbl" data-key="qr_type">نوع QR</label>
+        <select class="finput">
+          <option data-key="qr_dynamic">QR ديناميكي (SRLN)</option>
+          <option data-key="qr_static">QR بسيط (ثابت)</option>
+        </select>
+      </div>
+      <div class="fg"><label class="flbl" data-key="loyalty">برنامج الولاء</label>
+        <select class="finput">
+          <option data-key="loyalty_on">مفعل — 10 نقاط/مسح ✅</option>
+          <option data-key="loyalty_off">غير مفعل ❌</option>
+        </select>
+      </div>
+      <div class="fg"><label class="flbl" data-key="f_action">الإجراء</label>
+        <button class="btn-saf" style="width:100%" onclick="genQR()" data-key="gen_qr">توليد QR</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="qr-empty" class="section-card" style="display:none">
+    <div class="empty-state">
+      <span class="empty-state-icon">🔲</span>
+      <div class="empty-state-title" data-key="no_qr">لا توجد دفعات لتوليد QR</div>
+      <div class="empty-state-desc" data-key="no_qr_desc">أضف دفعات إنتاج أولاً ثم ارجع لتوليد رموز QR</div>
+      <button class="btn-saf" style="margin-top:12px" onclick="goto('erp',null)" data-key="go_erp">🏭 الذهاب للإنتاج</button>
+    </div>
+  </div>
+
+  <div class="qr-grid" id="qr-grid"></div>
+
+  <div class="section-card" style="margin-top:12px;background:rgba(27,191,160,0.04);border-color:rgba(27,191,160,0.12)">
+    <div class="card-title" data-key="loyalty_prog">⟳ برنامج الاسترجاع والولاء</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center">
+      <div><div style="font-size:26px;font-weight:900;color:var(--teal2);font-family:'Space Mono',monospace" id="stat-recycled">0</div><div style="font-size:10px;color:var(--txt3)" data-key="recycled_month">قارورة مسترجعة / شهر</div></div>
+      <div><div style="font-size:26px;font-weight:900;color:var(--saffron);font-family:'Space Mono',monospace">—</div><div style="font-size:10px;color:var(--txt3)" data-key="conversion_rate">معدل التحويل → Elixir</div></div>
+      <div><div style="font-size:26px;font-weight:900;color:var(--teal);font-family:'Space Mono',monospace">—</div><div style="font-size:10px;color:var(--txt3)" data-key="cost_reduction">تخفيض تكلفة التغليف</div></div>
+      <div><div style="font-size:26px;font-weight:900;color:var(--indigo2);font-family:'Space Mono',monospace" id="stat-points">0</div><div style="font-size:10px;color:var(--txt3)" data-key="loyalty_pts">نقاط ولاء موزعة</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== KEFIRBOT ====== -->
+<div id="page-kefirbot" class="page">
+  <div class="ph">
+    <div class="ph-row"><div class="ph-title" data-key="bot_title">🤖 KefirBot — الذكاء الاصطناعي</div><div class="badge b-ok" id="bot-badge">Claude AI متصل</div></div>
+    <div class="ph-sub" data-key="bot_sub">مدعوم بـ Claude Sonnet | يجيب على أي سؤال | عربي · فرنسي · إنجليزي</div>
+  </div>
+  <div class="chat-layout">
+    <div class="chat-win">
+      <div class="chat-hdr">
+        <div class="bot-av">🤖<div class="bot-on"></div></div>
+        <div>
+          <div class="bot-name">KefirBot — Tifinagh AI</div>
+          <div class="bot-stat" id="bot-status">● Claude Sonnet — جاهز</div>
+        </div>
+        <div style="margin-right:auto;display:flex;gap:4px">
+          <span class="badge b-ok" style="font-size:9px">AR</span>
+          <span class="badge b-ind" style="font-size:9px">FR</span>
+          <span class="badge" style="background:rgba(27,191,160,0.12);color:var(--teal2);font-size:9px">EN</span>
+        </div>
+      </div>
+      <div class="msgs" id="chat-msgs">
+        <div class="msg bot">
+          <div class="msg-av bot">🤖</div>
+          <div class="bubble" id="bot-welcome">مرحباً! أنا KefirBot، مساعدك الذكي من KefirSahara ⵜⵉⴼⵉⵏⴱⵖ<br><br>اسألني أي شيء عن الكفير، الصحة، ثقافة الطوارق، أو منتجاتنا!</div>
+        </div>
+      </div>
+      <div class="thinking" id="thinking"><div class="dot-anim"><i></i><i></i><i></i></div><span id="thinking-txt">KefirBot يفكر...</span></div>
+      <div class="quick-pills" id="quick-pills">
+        <div class="qpill" onclick="sendQ('ما هو الكفير وما فوائده الصحية؟')">🔬 فوائد الكفير</div>
+        <div class="qpill" onclick="sendQ('ما هو Elixir Tifinagh — خل كفير وظيفي 4 صيغ وما مكوناته؟')">✨ Elixir</div>
+        <div class="qpill" onclick="sendQ('ما الفرق بين R1 و R2 و R3؟')">📊 مقارنة</div>
+        <div class="qpill" onclick="sendQ('ما هي ثقافة الطوارق في منطقة تمنراست؟')">🏜 الطوارق</div>
+        <div class="qpill" onclick="sendQ('What is Saharan kefir and its benefits?')">🇬🇧 English</div>
+        <div class="qpill" onclick="sendQ('Qu\'est-ce que le kéfir du Sahara?')">🇫🇷 Français</div>
+      </div>
+      <div class="chat-in-area">
+        <textarea class="chat-in" id="chat-input" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"></textarea>
+        <button class="btn-send" onclick="sendMsg()">➤</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card">
+        <div class="card-title" style="font-size:12px;color:var(--saffron)" data-key="prod_recs">🎯 المنتجات</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border)"><div style="width:7px;height:7px;border-radius:50%;background:#F0C14A;flex-shrink:0"></div><div style="font-size:11.5px;color:var(--txt2);flex:1">R1 — نجمة الأرض</div><div style="color:var(--saffron);font-size:9.5px">★★★★★</div></div>
+          <div style="display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border)"><div style="width:7px;height:7px;border-radius:50%;background:var(--terra2);flex-shrink:0"></div><div style="font-size:11.5px;color:var(--txt2);flex:1">R2 — الكركديه</div><div style="color:var(--saffron);font-size:9.5px">★★★★★</div></div>
+          <div style="display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border)"><div style="width:7px;height:7px;border-radius:50%;background:var(--sky);flex-shrink:0"></div><div style="font-size:11.5px;color:var(--txt2);flex:1">R3 — الزنجبيل</div><div style="color:var(--saffron);font-size:9.5px">★★★★☆</div></div>
+          <div style="display:flex;align-items:center;gap:7px;padding:4px 0"><div style="width:7px;height:7px;border-radius:50%;background:var(--saffron);flex-shrink:0"></div><div style="font-size:11.5px;color:var(--txt2);flex:1">Elixir — 4 صيغ خل كفير وظيفي</div><div style="color:var(--saffron);font-size:9.5px">★★★★★</div></div>
+        </div>
+      </div>
+      <div class="card" style="background:rgba(59,79,170,0.06);border-color:rgba(59,79,170,0.15)">
+        <div class="card-title" style="font-size:12px;color:var(--indigo2)">⚡ Claude AI</div>
+        <div style="font-size:11.5px;color:var(--txt3);line-height:1.7" data-key="claude_desc">مدعوم بـ Claude Sonnet من Anthropic — يجيب على أي سؤال في الوقت الفعلي بأي لغة.</div>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:5px"><div style="width:6px;height:6px;border-radius:50%;background:var(--teal2)"></div><div style="font-size:11px;color:var(--teal2)" id="claude-status">متصل — Claude API</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SENSORY ====== -->
+<div id="page-sensory" class="page">
+  <div class="ph"><div class="ph-row"><div class="ph-title" data-key="sensory_title">⭐ التقييم الحسي</div></div><div class="ph-sub" data-key="sensory_sub">5 معايير · مرتبط بالدفعة و QR</div></div>
+  <div class="eval-grid">
+    <div class="eval-card">
+      <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:2px">🟡 R1 — نجمة الأرض</div>
+      <div style="font-size:9.5px;color:var(--txt3);margin-bottom:11px" data-key="no_batch_linked">غير مرتبط بدفعة</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><div class="crit-lbl"><span data-key="smell">الرائحة</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="taste">المذاق</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="color">اللون</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="texture">القوام</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="fizz">الغازية</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:5px"><button class="btn-teal" onclick="toast('⭐',t('saved'),t('eval_saved'))">💾 <span data-key="save">حفظ</span></button><button class="btn-out">📊 <span data-key="analysis">تحليل</span></button></div>
+    </div>
+    <div class="eval-card">
+      <div style="font-size:13px;font-weight:700;color:var(--txt);margin-bottom:2px">🔴 R2 — الكركديه</div>
+      <div style="font-size:9.5px;color:var(--txt3);margin-bottom:11px" data-key="no_batch_linked">غير مرتبط بدفعة</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><div class="crit-lbl"><span data-key="smell">الرائحة</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="taste">المذاق</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="color">اللون</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="texture">القوام</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="fizz">الغازية</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:5px"><button class="btn-teal" onclick="toast('⭐',t('saved'),t('eval_saved'))">💾 <span data-key="save">حفظ</span></button><button class="btn-out">📊</button></div>
+    </div>
+    <div class="eval-card" style="border-color:rgba(240,165,0,0.18)">
+      <div style="font-size:13px;font-weight:700;color:var(--saffron);margin-bottom:2px">✨ Elixir — خل كفير وظيفي — خل كفير وظيفي 4 صيغ</div>
+      <div style="font-size:9.5px;color:var(--txt3);margin-bottom:11px" data-key="no_batch_linked">غير مرتبط بدفعة</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><div class="crit-lbl"><span data-key="smell">الرائحة</span><span class="crit-score" style="color:var(--saffron)">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="taste">المذاق</span><span class="crit-score" style="color:var(--saffron)">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="color">اللون</span><span class="crit-score" style="color:var(--saffron)">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="texture">القوام</span><span class="crit-score" style="color:var(--saffron)">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="fizz">الغازية</span><span class="crit-score" style="color:var(--saffron)">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:5px"><button class="btn-teal" onclick="toast('✨','Elixir',t('eval_saved'))">💾 <span data-key="save">حفظ</span></button><button class="btn-out">📊</button></div>
+    </div>
+    <div class="eval-card" style="border-color:rgba(91,175,212,0.18)">
+      <div style="font-size:13px;font-weight:700;color:var(--sky);margin-bottom:2px">🔵 R3 — الزنجبيل</div>
+      <div style="font-size:9.5px;color:var(--txt3);margin-bottom:11px" data-key="no_batch_linked">غير مرتبط بدفعة</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><div class="crit-lbl"><span data-key="smell">الرائحة</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="taste">المذاق</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+        <div><div class="crit-lbl"><span data-key="texture">القوام</span><span class="crit-score">—</span></div><div style="display:flex;gap:3px"><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span><span class="star" onclick="rateStar(this)">★</span></div></div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:5px"><button class="btn-teal" onclick="toast('⭐',t('saved'),t('eval_saved'))">💾 <span data-key="save">حفظ</span></button><button class="btn-out">📊</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== ANALYTICS ====== -->
+<div id="page-analytics" class="page">
+  <div class="ph"><div class="ph-row"><div class="ph-title">📈 Analytics</div></div><div class="ph-sub" data-key="analytics_sub">مؤشرات الأداء · توزيع المنتجات · الاقتصاد الدائري</div></div>
+  <div id="analytics-empty" style="display:none">
+    <div class="section-card"><div class="empty-state"><span class="empty-state-icon">📈</span><div class="empty-state-title" data-key="no_analytics">لا توجد بيانات كافية</div><div class="empty-state-desc" data-key="no_analytics_desc">أضف دفعات وشركاء لرؤية التحليلات</div></div></div>
+  </div>
+  <div id="analytics-content">
+    <div class="an-grid">
+      <div class="card">
+        <div class="card-title" data-key="product_dist">📦 توزيع المنتجات</div>
+        <div id="analytics-chart" style="display:flex;flex-direction:column;gap:8px;padding-top:4px">
+          <div class="empty-state" style="padding:18px"><span class="empty-state-icon" style="font-size:24px">📊</span><div style="font-size:12px;color:var(--txt3)" data-key="add_batches_first">أضف دفعات أولاً</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" data-key="circular_eco">⟳ الاقتصاد الدائري</div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding-top:4px">
+          <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span style="color:var(--txt3)" data-key="recycling_rate">معدل الاسترجاع</span><span style="color:var(--teal2);font-weight:700">—</span></div><div class="prog-bar"><div class="prog-fill" style="background:var(--teal2);width:0%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span style="color:var(--txt3)" data-key="elixir_conv">تحويل → Elixir</span><span style="color:var(--saffron);font-weight:700">—</span></div><div class="prog-bar"><div class="prog-fill" style="background:var(--saffron);width:0%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span style="color:var(--txt3)" data-key="client_sat">رضا العملاء</span><span style="color:var(--indigo2);font-weight:700">—</span></div><div class="prog-bar"><div class="prog-fill" style="background:var(--indigo2);width:0%"></div></div></div>
+        </div>
+      </div>
+      <div class="card" style="grid-column:span 2">
+        <div class="card-title" data-key="b2b_overview">🤝 نظرة عامة B2B</div>
+        <div id="b2b-analytics-content">
+          <div class="empty-state" style="padding:18px"><span class="empty-state-icon" style="font-size:24px">🤝</span><div style="font-size:12px;color:var(--txt3)" data-key="add_partners_first">أضف شركاء B2B أولاً</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CULTURAL ====== -->
+<div id="page-cultural" class="page">
+  <div class="ph"><div class="ph-row"><div class="ph-title" data-key="cult_title">🏺 الفضاء الثقافي التارقي</div></div><div class="ph-sub">ⵜⵉⴼⵉⵏⴱⵖ · حضارة الطوارق · تمنراست وجنوب الجزائر</div></div>
+  <div class="cultural-hero">
+    <div class="ch-tif-bg">ⵜⵉⴼⵉⵏⴱⵖ</div>
+    <div class="ch-logo">ⵜⵉⴼⵉⵏⴱⵖ</div>
+    <div class="ch-name" data-key="brand_tagline">KefirSahara — كفير الصحراء</div>
+    <div class="ch-desc" data-key="brand_desc">من أعماق الصحراء الكبرى وحضارة الطوارق — كفير Tifinagh ليس مجرد منتج، بل قصة شعب وإرث آلاف السنين من التناغم مع البيئة الصحراوية. تمنراست، عاصمة الهقار، مهد هذا المشروع الرائد.</div>
+    <div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap">
+      <div class="inapi">ⵜ تيفيناغ أمازيغي</div><div class="inapi">🏜 صحراء الهقار</div>
+      <div class="inapi">🌿 خل كفير وظيفي 4 صيغ</div><div class="inapi">🇩🇿 جنوب الجزائر</div>
+    </div>
+  </div>
+  <div class="cult-tabs">
+    <div class="cult-tab active" onclick="switchCult('heritage',this)" data-key="tab_heritage">🏺 التراث التارقي</div>
+    <div class="cult-tab" onclick="switchCult('tamanrasset',this)" data-key="tab_tamanrasset">🏙 تمنراست والجنوب</div>
+    <div class="cult-tab" onclick="switchCult('timeline',this)" data-key="tab_timeline">📅 الخط الزمني</div>
+    <div class="cult-tab" onclick="switchCult('products',this)" data-key="tab_products">🌿 المنتجات والهوية</div>
+  </div>
+  <div id="cult-heritage" class="cult-section active">
+    <div class="tuareg-grid">
+      <div class="tcard"><div class="tcard-icon">🐫</div><div class="tcard-title" data-key="tc1_title">شعب الطوارق — الإيمازيغن</div><div class="tcard-body" data-key="tc1_body">الطوارق هم السكان الأصليون للصحراء الكبرى، ويسمون أنفسهم "إيمازيغن" أي الأحرار. يعيشون في منطقة شاسعة تمتد من ليبيا إلى موريتانيا، ومن الجزائر إلى مالي والنيجر.</div></div>
+      <div class="tcard"><div class="tcard-icon">ⵜ</div><div class="tcard-title" data-key="tc2_title">الكتابة التيفيناغية</div><div class="tcard-body" data-key="tc2_body">تيفيناغ هو الخط الأمازيغي القديم الذي كتبت به الطوارق حضارتهم منذ آلاف السنين. يُعد من أقدم الأبجديات في التاريخ، ولا يزال مستخدماً حتى اليوم في الجزائر والمغرب.</div></div>
+      <div class="tcard"><div class="tcard-icon">🔵</div><div class="tcard-title" data-key="tc3_title">اللثام والزي التارقي</div><div class="tcard-body" data-key="tc3_body">يشتهر رجال الطوارق باللثام الأزرق (تاغلموست). اللون الأزرق رمز النبل والحرية في ثقافتهم، ويحمي من رمال الصحراء وحرارة الشمس.</div></div>
+      <div class="tcard"><div class="tcard-icon">🎵</div><div class="tcard-title" data-key="tc4_title">الموسيقى والفنون</div><div class="tcard-body" data-key="tc4_body">موسيقى الطوارق (تِندي) إرث عريق يجمع آلة التندي الإيقاعية مع الغناء الجماعي. الحلي الفضية والجلود المزخرفة من أبرز مظاهر حضارتهم.</div></div>
+      <div class="tcard"><div class="tcard-icon">🌿</div><div class="tcard-title" data-key="tc5_title">الطب الصحراوي التقليدي</div><div class="tcard-body" data-key="tc5_body">اعتمد الطوارق على النباتات الوظيفية الصحراوية في علاجاتهم التقليدية منذ آلاف السنين. هذه المعرفة العريقة هي الأساس الذي قامت عليه منتجات KefirSahara.</div></div>
+      <div class="tcard"><div class="tcard-icon">⛺</div><div class="tcard-title" data-key="tc6_title">الاقتصاد الصحراوي</div><div class="tcard-body" data-key="tc6_body">ارتبط اقتصاد الطوارق تاريخياً بالرعي وتجارة القوافل. مفهوم الاقتصاد الدائري في KefirSahara مستوحى من ثقافتهم في عدم الهدر واستغلال كل الموارد.</div></div>
+    </div>
+  </div>
+  <div id="cult-tamanrasset" class="cult-section">
+    <div class="geo-grid">
+      <div class="geo-card"><div class="geo-title">🏙 تمنراست — عاصمة الهقار</div><div class="geo-fact"><span class="geo-key" data-key="g_province">الولاية</span><span class="geo-val">تمنراست، الجزائر</span></div><div class="geo-fact"><span class="geo-key" data-key="g_alt">الارتفاع</span><span class="geo-val">1,400 م</span></div><div class="geo-fact"><span class="geo-key" data-key="g_temp">درجة الحرارة</span><span class="geo-val">5°C — 45°C</span></div><div class="geo-fact"><span class="geo-key" data-key="g_dist">من الجزائر</span><span class="geo-val">~1,950 كم</span></div><div class="geo-fact"><span class="geo-key" data-key="g_pop">السكان</span><span class="geo-val">~150,000</span></div><div class="geo-fact"><span class="geo-key" data-key="g_langs">اللغات</span><span class="geo-val">عربية · تماشق · فرنسية</span></div></div>
+      <div class="geo-card"><div class="geo-title">🏔 جبال الهقار</div><div class="geo-fact"><span class="geo-key" data-key="g_area">المساحة</span><span class="geo-val">450,000 كم²</span></div><div class="geo-fact"><span class="geo-key" data-key="g_peak">أعلى قمة</span><span class="geo-val">تاهات — 2,918 م</span></div><div class="geo-fact"><span class="geo-key" data-key="g_climate">المناخ</span><span class="geo-val">صحراوي جاف</span></div><div class="geo-fact"><span class="geo-key" data-key="g_biodiv">التنوع البيولوجي</span><span class="geo-val">أعشاب نادرة فريدة</span></div><div class="geo-fact"><span class="geo-key" data-key="g_unesco">UNESCO</span><span class="geo-val">تراث عالمي مقترح</span></div></div>
+      <div class="geo-card"><div class="geo-title">🌍 ولايات الجنوب</div><div class="geo-fact"><span class="geo-key">تمنراست</span><span class="geo-val">مقر KefirSahara ⭐</span></div><div class="geo-fact"><span class="geo-key">إيليزي</span><span class="geo-val" data-key="dist_active">موزع نشط</span></div><div class="geo-fact"><span class="geo-key">جانت</span><span class="geo-val" data-key="dist_active">موزع نشط</span></div><div class="geo-fact"><span class="geo-key">أدرار</span><span class="geo-val" data-key="dist_active">موزع نشط</span></div><div class="geo-fact"><span class="geo-key">غرداية</span><span class="geo-val" data-key="dist_new">موزع جديد</span></div><div class="geo-fact"><span class="geo-key" data-key="g_expand">التوسع N+2</span><span class="geo-val">مالي · النيجر · موريتانيا</span></div></div>
+      <div class="geo-card"><div class="geo-title">🌱 الأعشاب الصحراوية</div><div class="geo-fact"><span class="geo-key" style="color:var(--saffron)">يانسون نجمي (Illicium verum)</span><span class="geo-val" data-key="herb_antioxidant">مضاد للأكسدة</span></div><div class="geo-fact"><span class="geo-key" style="color:var(--saffron)">كركديه (Hibiscus sabdariffa)</span><span class="geo-val" data-key="herb_antiinflam">مضاد للالتهابات</span></div><div class="geo-fact"><span class="geo-key" style="color:var(--saffron)">زنجبيل طازج (Zingiber officinale)</span><span class="geo-val" data-key="herb_antibacterial">مضاد للجراثيم</span></div><div class="geo-fact"><span class="geo-key" style="color:var(--saffron)">صمغ عربي (Acacia senegal)</span><span class="geo-val" data-key="herb_immune">مقوي للمناعة</span></div><div class="geo-fact"><span class="geo-key" style="color:var(--saffron)">مركبات نباتية أخرى</span><span class="geo-val" data-key="herb_digestive">محسّن للهضم</span></div></div>
+    </div>
+  </div>
+  <div id="cult-timeline" class="cult-section">
+    <div class="section-card"><div class="card-title" data-key="timeline_title">📅 من التراث إلى الابتكار</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">3000 ق.م</div><div class="tl-content"><div class="tl-title" data-key="tl1_title">نشأة الحضارة التارقية</div><div class="tl-desc" data-key="tl1_desc">استقرار الطوارق في الصحراء الكبرى، بدء استخدام الكتابة التيفيناغية وتطوير الطب الصحراوي التقليدي بالأعشاب.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1962</div><div class="tl-content"><div class="tl-title" data-key="tl2_title">استقلال الجزائر</div><div class="tl-desc" data-key="tl2_desc">إدراج تمنراست ضمن الجمهورية الجزائرية، بداية الاهتمام الرسمي بتراث الجنوب والتنمية المحلية.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2010</div><div class="tl-content"><div class="tl-title" data-key="tl3_title">تأسيس جامعة تمنراست</div><div class="tl-desc" data-key="tl3_desc">إنشاء مؤسسة أكاديمية في قلب الصحراء، مما أتاح البحث العلمي في الموارد الطبيعية والأعشاب الصحراوية.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-content"><div class="tl-title" data-key="tl4_title">ولادة فكرة KefirSahara</div><div class="tl-desc" data-key="tl4_desc">انطلاق مشروع KefirSahara من جامعة تمنراست — الجمع بين علم الكفير الحديث وأعشاب الهقار في منتج فريد.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-content"><div class="tl-title" data-key="tl5_title">براءة الاختراع INAPI</div><div class="tl-desc" data-key="tl5_desc">إيداع براءة اختراع Claim 5 + 6 للنظام الذكي QR (SRLN) ونظام الاقتصاد الدائري للقوارير.</div></div></div>
+        <div class="tl-item"><div class="tl-dot" style="border-color:var(--saffron);background:rgba(240,165,0,0.2)"></div><div class="tl-year" style="color:var(--saffron)">2026+</div><div class="tl-content"><div class="tl-title" style="color:var(--saffron)" data-key="tl6_title">التوسع الأفريقي</div><div class="tl-desc" data-key="tl6_desc">خطة التوسع إلى دول الجوار: مالي، النيجر، موريتانيا — حاملين هوية الطوارق للعالم.</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div id="cult-products" class="cult-section">
+    <div class="prod-showcase" style="margin-bottom:14px">
+      <div class="prod-card pc-r1"><span class="pc-emoji">🟡</span><div class="pc-name">R1 — نجمة الأرض</div><div class="pc-tag" data-key="seg_r1">R1 | يانسون نجمي + صمغ عربي</div><div class="pc-cfu" style="color:#F0C14A">CFU: >6 log UFC/mL</div><div style="font-size:9.5px;color:var(--txt3);margin-top:5px" data-key="r1_herbs">مكونات نباتية محلية + مكونات نباتية محلية</div></div>
+      <div class="prod-card pc-r2"><span class="pc-emoji">🔴</span><div class="pc-name">R2 — الكركديه</div><div class="pc-tag" data-key="seg_beauty">R2 | كركديه</div><div class="pc-cfu" style="color:var(--terra2)">CFU: >6 log UFC/mL</div><div style="font-size:9.5px;color:var(--txt3);margin-top:5px" data-key="r2_herbs">مكونات نباتية محلية + مكونات نباتية محلية</div></div>
+      <div class="prod-card pc-r3"><span class="pc-emoji">🔵</span><div class="pc-name">R3 — الزنجبيل</div><div class="pc-tag" data-key="seg_energy">R3 | زنجبيل</div><div class="pc-cfu" style="color:var(--sky)">CFU: >6 log UFC/mL</div><div style="font-size:9.5px;color:var(--txt3);margin-top:5px" data-key="r3_herbs">مكونات نباتية محلية + مكونات نباتية محلية</div></div>
+      <div class="prod-card pc-el"><span class="pc-emoji">✨</span><div class="pc-name">Elixir Tifinagh — خل كفير وظيفي 4 صيغ</div><div class="pc-tag" data-key="seg_premium">خل كفير وظيفي — 4 صيغ</div><div class="pc-cfu" style="color:var(--saffron)">CFU: >6 log UFC/mL</div><div style="font-size:9.5px;color:var(--txt3);margin-top:5px" data-key="el_herbs">Elixir Pur · نجمة الأرض · الكركديه · الزنجبيل</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:11px">
+      <div class="section-card"><div class="card-title" style="color:var(--saffron);font-size:12px" data-key="name_story">📖 قصة الاسم</div><div style="font-size:12px;color:var(--txt3);line-height:1.7" data-key="name_story_body">"تيفيناغ" الخط الأمازيغي القديم الذي كتبت به الطوارق حضارتهم. KefirSahara يُحيي هذا الإرث في منتج حديث يجمع الحكمة التقليدية والعلم المعاصر.</div></div>
+      <div class="section-card"><div class="card-title" style="color:var(--teal2);font-size:12px" data-key="purity_title">🌿 النقاء الصحراوي</div><div style="font-size:12px;color:var(--txt3);line-height:1.7" data-key="purity_body">كل مكون مُصادَق من منطقة تمنراست والهقار. لا مضافات كيميائية — نقاء 100% صحراوي موثق علمياً ومحمي بـ Claim 6.</div></div>
+      <div class="section-card"><div class="card-title" style="color:var(--indigo2);font-size:12px" data-key="ad_title">🤝 فرص الإعلان</div><div style="font-size:12px;color:var(--txt3);line-height:1.7" data-key="ad_body">17 فندق + 94 وكالة سياحية في تمنراست. شراكات إعلانية بمحتوى ثلاثي اللغات: عربي + فرنسي + تيفيناغ.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== B2B ====== -->
+<div id="page-b2b" class="page">
+  <div class="ph">
+    <div class="ph-row"><div class="ph-title" data-key="b2b_title">🤝 بوابة B2B</div></div>
+    <div class="ph-sub" data-key="b2b_sub">إضافة · تعديل · حذف الشركاء التجاريين</div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <div style="font-size:11px;color:var(--txt3)"><span data-key="total_partners">إجمالي الشركاء:</span> <span id="b2b-count" style="color:var(--teal2);font-weight:700">0</span></div>
+    <button class="btn-saf" onclick="openB2BModal()">➕ <span data-key="add_partner">إضافة شريك</span></button>
+  </div>
+  <div id="b2b-empty" class="section-card" style="display:none">
+    <div class="empty-state"><span class="empty-state-icon">🤝</span><div class="empty-state-title" data-key="no_partners">لا يوجد شركاء بعد</div><div class="empty-state-desc" data-key="no_partners_desc">أضف أول شريك تجاري باستخدام الزر أعلاه</div></div>
+  </div>
+  <div class="b2b-grid" id="b2b-grid"></div>
+  <div class="section-card" id="b2b-orders-section" style="display:none">
+    <div class="card-title" data-key="b2b_orders">📋 إدارة الطلبات</div>
+    <div class="empty-state" style="padding:18px"><span class="empty-state-icon" style="font-size:22px">📋</span><div style="font-size:12px;color:var(--txt3)" data-key="orders_coming">قريباً — نظام الطلبات</div></div>
+  </div>
+</div>
+
+<!-- ====== DISTRIBUTORS ====== -->
+<div id="page-distributors" class="page">
+  <div class="ph"><div class="ph-row"><div class="ph-title" data-key="dist_title">🗺 شبكة الموزعين</div></div><div class="ph-sub" data-key="dist_sub">تمنراست → ولايات الجنوب → الوطني → أفريقيا</div></div>
+  <div class="distrib-map">
+    <div class="map-grid"></div>
+    <div style="position:absolute;top:9px;right:10px;font-size:10px;color:rgba(255,220,160,0.3)" data-key="map_label">🗺 خريطة التوزيع — الجزائر الجنوبية</div>
+    <div class="dnode" style="top:42%;right:48%"><div class="nd" style="width:14px;height:14px;border-color:var(--saffron);background:rgba(240,165,0,0.25)"></div><div class="nlbl" style="color:var(--saffron);font-weight:700">🏭 تمنراست</div><div class="ncnt" >المقر — تامنغست</div></div>
+    <div class="dnode" style="top:22%;right:33%"><div class="nd"></div><div class="nlbl">إيليزي</div></div>
+    <div class="dnode" style="top:55%;right:28%"><div class="nd"></div><div class="nlbl">جانت</div></div>
+    <div class="dnode" style="top:28%;right:63%"><div class="nd"></div><div class="nlbl">أدرار</div></div>
+    <div class="dnode" style="top:65%;right:52%"><div class="nd" style="border-color:var(--warn);background:rgba(240,165,0,0.18)"></div><div class="nlbl" style="color:var(--warn)" data-key="coming_soon">مالي (قريباً)</div></div>
+    <div class="dnode" style="top:18%;right:18%"><div class="nd" style="border-color:var(--sky);background:rgba(91,175,212,0.15)"></div><div class="nlbl" style="color:var(--sky)">غرداية</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+    <div class="kpi kpi-teal"><div class="kpi-lbl" data-key="active_dist">موزعون نشطون</div><div class="kpi-val" style="font-size:22px">—</div><div class="kpi-trend t-neu" data-key="being_built">قيد البناء</div></div>
+    <div class="kpi kpi-saf"><div class="kpi-lbl" data-key="covered_prov">ولايات مغطاة</div><div class="kpi-val" style="font-size:22px">5</div><div class="kpi-trend t-neu" data-key="south_algeria">جنوب الجزائر</div></div>
+    <div class="kpi kpi-ind"><div class="kpi-lbl">هدف N+1</div><div class="kpi-val" style="font-size:22px">10</div><div class="kpi-trend t-neu" data-key="b2b_dist">موزع B2B</div></div>
+    <div class="kpi" style="background:rgba(200,81,42,0.07);border-color:rgba(200,81,42,0.18)"><div class="kpi-lbl" data-key="africa_exp">التصدير الأفريقي</div><div class="kpi-val" style="font-size:22px;color:var(--terra2)">N+2</div><div class="kpi-trend" style="color:var(--terra2)">Niger · Mali · Mauritanie</div></div>
+  </div>
+</div>
+
+<!-- ====== SCIENTIFIC ====== -->
+<div id="page-scientific" class="page">
+  <div class="ph"><div class="ph-row"><div class="ph-title" data-key="sci_title">🔬 الفضاء العلمي</div></div><div class="ph-sub" data-key="sci_sub">منصة بحثية | جامعة تمنراست + شركاء البحث</div></div>
+  <div style="display:grid;grid-template-columns:1fr 230px;gap:12px">
+    <div>
+      <div class="section-card" style="margin-bottom:12px">
+  <div class="card-title">📊 مؤشرات الجودة — بمجالاتها المعيارية</div>
+  <table class="btable">
+    <thead><tr><th>المؤشر</th><th>القيمة</th><th>المجال المقبول</th><th>المرجع</th><th>الحالة</th></tr></thead>
+    <tbody>
+      <tr><td>UFC/mL — الحيوية البروبيوتيكية</td><td class="mono" style="color:var(--teal2)">&gt;6 log UFC/mL</td><td class="mono">&gt;6 log UFC/mL</td><td style="font-size:10px">FAO/WHO 2002</td><td><span class="badge b-ok">✓ مطابق</span></td></tr>
+      <tr><td>pH الكفير</td><td class="mono" style="color:var(--teal2)">3.0 – 4.5</td><td class="mono">3.0 – 4.5</td><td style="font-size:10px">Codex CXS 243-2003</td><td><span class="badge b-ok">✓ مطابق</span></td></tr>
+      <tr><td>السكر المتبقي</td><td class="mono" style="color:var(--teal2)">&lt;6g/100mL</td><td class="mono">&lt;6g/100mL</td><td style="font-size:10px">NA 2551</td><td><span class="badge b-ok">✓ مطابق</span></td></tr>
+      <tr><td>الكحول</td><td class="mono" style="color:var(--teal2)">&lt;0.5%</td><td class="mono">&lt;0.5%</td><td style="font-size:10px">حلال ✅</td><td><span class="badge b-ok">✓ مطابق</span></td></tr>
+      <tr><td>الثبات الميكروبيولوجي</td><td class="mono" style="color:var(--teal2)">40+ يوم</td><td class="mono">≥28 يوم</td><td style="font-size:10px">Codex CXS 243</td><td><span class="badge b-ok">✓ مطابق</span></td></tr>
+      <tr><td>pH Elixir (خل الكفير)</td><td class="mono" style="color:var(--teal2)">2.8 – 4.0</td><td class="mono">2.5 – 4.2</td><td style="font-size:10px">NA 2551</td><td><span class="badge b-ok">✓ مطابق</span></td></tr>
+      <tr><td>سلامة غذائية — MAC/SS</td><td class="mono" style="color:var(--teal2)">سالب</td><td class="mono">سالب</td><td style="font-size:10px">IANOR NA 1207</td><td><span class="badge b-ok">✓ مطابق</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+  <div class="section-card">
+    <div class="card-title" style="font-size:12px">📚 المراجع العلمية</div>
+    <div style="display:flex;flex-direction:column;gap:7px;font-size:11px;color:var(--txt2)">
+      <div style="padding:7px;background:rgba(255,220,160,0.03);border-radius:6px;border-right:2px solid var(--saffron)">
+        <div style="font-weight:700;color:var(--txt)">FAO/WHO 2002</div>
+        <div style="font-size:10px;color:var(--txt3)">Guidelines for the Evaluation of Probiotics in Food</div>
+      </div>
+      <div style="padding:7px;background:rgba(255,220,160,0.03);border-radius:6px;border-right:2px solid var(--saffron)">
+        <div style="font-weight:700;color:var(--txt)">Codex CXS 243-2003</div>
+        <div style="font-size:10px;color:var(--txt3)">Standard for Fermented Milks — Kefir Standard</div>
+      </div>
+      <div style="padding:7px;background:rgba(255,220,160,0.03);border-radius:6px;border-right:2px solid var(--teal2)">
+        <div style="font-weight:700;color:var(--txt)">Laureys & De Vuyst (2014)</div>
+        <div style="font-size:10px;color:var(--txt3)">Microbial species diversity, community dynamics & metabolite kinetics of water kefir</div>
+      </div>
+      <div style="padding:7px;background:rgba(255,220,160,0.03);border-radius:6px;border-right:2px solid var(--teal2)">
+        <div style="font-weight:700;color:var(--txt)">Cufaoglu & Erdinc (2023)</div>
+        <div style="font-size:10px;color:var(--txt3)">An alternative source of probiotics: Water kefir</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="card-title" style="font-size:12px">🏅 براءة الاختراع — INAPI</div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--txt2)">
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)"><span>عدد المطالبات</span><span style="color:var(--saffron);font-weight:700;font-family:'Space Mono',monospace">15</span></div>
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)"><span>رموز IPC الدولية</span><span style="color:var(--saffron);font-weight:700;font-family:'Space Mono',monospace">5</span></div>
+      <div style="padding:6px;background:rgba(255,220,160,0.03);border-radius:6px;font-size:10px;color:var(--txt3);line-height:1.6">
+        A23C 9/12 · A23L 33/00 · C12G 3/02<br>A23L 2/38 · C12N 1/20
+      </div>
+      <div style="padding:6px;background:rgba(224,82,82,0.06);border:1px solid rgba(224,82,82,0.15);border-radius:6px">
+        <div style="font-size:10px;color:var(--err);font-weight:700">🔒 سري — قيد الإيداع INAPI</div>
+        <div style="font-size:9.5px;color:var(--txt3);margin-top:2px">الوصفات والبروتوكولات محمية — لا تُفصح</div>
+      </div>
+      <button class="btn-teal" style="width:100%;margin-top:4px" onclick="goto('kefirbot',null)">🤖 اسأل KefirBot</button>
+    </div>
+  </div>
+</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div class="section-card">
+        <div class="card-title" style="font-size:11.5px" data-key="access_levels">🏛 مستويات الوصول</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;gap:6px;padding:6px;background:rgba(27,191,160,0.06);border-radius:6px"><span>👁</span><div><div style="font-size:11px;color:var(--txt);font-weight:700" data-key="public">عام</div><div style="font-size:9.5px;color:var(--txt3)" data-key="read_only">قراءة فقط</div></div></div>
+          <div style="display:flex;gap:6px;padding:6px;background:rgba(59,79,170,0.07);border-radius:6px"><span>🔬</span><div><div style="font-size:11px;color:var(--txt);font-weight:700" data-key="researcher">باحث</div><div style="font-size:9.5px;color:var(--txt3)" data-key="share_data">مشاركة البيانات</div></div></div>
+          <div style="display:flex;gap:6px;padding:6px;background:rgba(240,165,0,0.06);border-radius:6px"><span>👑</span><div><div style="font-size:11px;color:var(--saffron);font-weight:700" data-key="manager">مدير</div><div style="font-size:9.5px;color:var(--txt3)" data-key="full_access">وصول كامل</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CLIENTS ====== -->
+<div id="page-clients" class="page">
+  <div class="ph"><div class="ph-row"><div class="ph-title" data-key="clients_title">🎫 خدمة العملاء</div></div><div class="ph-sub" data-key="clients_sub">نظام التذاكر · KefirBot متكامل</div></div>
+  <div style="display:grid;grid-template-columns:1fr 240px;gap:12px">
+    <div>
+      <div style="display:flex;gap:7px;margin-bottom:11px">
+        <button class="btn-saf" onclick="addTicket()" data-key="new_ticket">➕ تذكرة جديدة</button>
+        <span class="badge b-ok" style="padding:4px 10px;cursor:pointer" onclick="filterTickets('all')" data-key="all">(<span id="cnt-all">0</span>) الكل</span>
+        <span class="badge b-warn" style="padding:4px 10px;cursor:pointer" onclick="filterTickets('open')" data-key="open">(<span id="cnt-open">0</span>) مفتوح</span>
+        <span class="badge b-exp" style="padding:4px 10px;cursor:pointer" onclick="filterTickets('urgent')" data-key="urgent">(<span id="cnt-urgent">0</span>) عاجل</span>
+      </div>
+      <div id="tickets-empty" class="section-card"><div class="empty-state"><span class="empty-state-icon">🎫</span><div class="empty-state-title" data-key="no_tickets">لا توجد تذاكر</div><div class="empty-state-desc" data-key="no_tickets_desc">عندما يرسل عملاؤك استفسارات، ستظهر هنا</div></div></div>
+      <div id="tickets-list"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div class="section-card">
+        <div class="card-title" style="font-size:12px" data-key="support_stats">📊 الدعم</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:11.5px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--txt3)" data-key="total_tickets">إجمالي التذاكر</span><span style="color:var(--txt);font-weight:700" id="stat-total-tickets">0</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--txt3)" data-key="open_tickets">مفتوح</span><span style="color:var(--warn);font-weight:700" id="stat-open-tickets">0</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--txt3)" data-key="urgent_tickets">عاجل</span><span style="color:var(--err);font-weight:700" id="stat-urgent-tickets">0</span></div>
+        </div>
+      </div>
+      <div class="section-card" style="background:rgba(59,79,170,0.05);border-color:rgba(59,79,170,0.13)">
+        <div class="card-title" style="font-size:12px;color:var(--indigo2)">🤖 KefirBot</div>
+        <div style="font-size:11.5px;color:var(--txt3);line-height:1.7" data-key="kefirbot_desc">يجيب تلقائياً على الأسئلة الشائعة.</div>
+        <button class="btn-teal" style="width:100%;margin-top:8px" onclick="goto('kefirbot',null)">🤖 فتح KefirBot</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- ===== MODAL ERP ===== -->
+<div class="modal-overlay" id="modal-erp">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title" id="modal-erp-title" data-key="edit_batch">تعديل الدفعة</div><button class="modal-close" onclick="closeModal('modal-erp')">✕</button></div>
+    <div class="frow"><div class="fg"><label class="flbl" data-key="f_product">المنتج</label><select class="finput" id="m-product"><option value="R1">R1 — نجمة الأرض</option><option value="R2">R2 — الكركديه</option><option value="R3">R3 — الزنجبيل</option><option value="EL-PUR">Elixir Pur — خل كفير غير منكّه</option>
+          <option value="EL-R1">Elixir Tifinagh — نجمة الأرض</option>
+          <option value="EL-R2">Elixir Tifinagh — الكركديه</option>
+          <option value="EL-R3">Elixir Tifinagh — الزنجبيل</option></select></div><div class="fg"><label class="flbl" data-key="f_qty">الكمية</label><input class="finput" id="m-qty" type="number"></div><div class="fg"><label class="flbl">pH</label><input class="finput" id="m-ph" type="number" step="0.1"></div></div>
+    <div class="frow"><div class="fg"><label class="flbl">CFU</label><input class="finput" id="m-cfu"></div><div class="fg"><label class="flbl" data-key="f_exp">الصلاحية</label><input class="finput" id="m-exp" type="date"></div><div class="fg"><label class="flbl" data-key="th_status">الحالة</label><select class="finput" id="m-status"><option value="ok" data-key="ready">✓ جاهز</option><option value="warn" data-key="near_exp">⚠ قريب</option><option value="exp" data-key="expired">✗ منتهي</option></select></div></div>
+    <input type="hidden" id="m-id">
+    <div class="modal-footer"><button class="btn-saf" onclick="erpModalSave()" data-key="save_edit">💾 حفظ التعديل</button><button class="btn-cancel" onclick="closeModal('modal-erp')" data-key="cancel">إلغاء</button></div>
+  </div>
+</div>
+
+<!-- ===== MODAL B2B ===== -->
+<div class="modal-overlay" id="modal-b2b">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title" id="modal-b2b-title" data-key="add_partner">إضافة شريك</div><button class="modal-close" onclick="closeModal('modal-b2b')">✕</button></div>
+    <div class="frow" style="grid-template-columns:1fr 1fr"><div class="fg"><label class="flbl" data-key="partner_name">اسم المؤسسة</label><input class="finput" id="b-name"></div><div class="fg"><label class="flbl" data-key="partner_type">النوع</label><select class="finput" id="b-type"><option>🏨 فندق سياحي</option><option>✈ وكالة سياحية</option><option>🏥 مؤسسة صحية</option><option>🔬 شريك بحثي</option><option>🏪 تجزئة</option></select></div></div>
+    <div class="frow" style="grid-template-columns:1fr 1fr"><div class="fg"><label class="flbl" data-key="monthly_qty">الكمية / شهر</label><input class="finput" id="b-qty" type="number"></div><div class="fg"><label class="flbl" data-key="th_status">الحالة</label><select class="finput" id="b-status"><option value="active" data-key="active">نشط ✅</option><option value="pending" data-key="pending">قيد الموافقة ⏳</option><option value="soon" data-key="coming_soon2">قريباً 🔜</option></select></div></div>
+    <input type="hidden" id="b-id">
+    <div class="modal-footer"><button class="btn-saf" onclick="b2bSave()" data-key="save">💾 حفظ</button><button class="btn-cancel" onclick="closeModal('modal-b2b')" data-key="cancel">إلغاء</button></div>
+  </div>
+</div>
+
+<!-- ===== MODAL TICKET ===== -->
+<div class="modal-overlay" id="modal-ticket">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title" data-key="new_ticket_title">تذكرة جديدة</div><button class="modal-close" onclick="closeModal('modal-ticket')">✕</button></div>
+    <div class="frow" style="grid-template-columns:1fr 1fr"><div class="fg"><label class="flbl" data-key="f_client">العميل</label><input class="finput" id="tk-client"></div><div class="fg"><label class="flbl" data-key="priority">الأولوية</label><select class="finput" id="tk-prio"><option value="urgent" data-key="urgent">🔴 عاجل</option><option value="med" data-key="medium">🟡 متوسط</option><option value="low" data-key="low">🟢 منخفض</option></select></div></div>
+    <div class="fg" style="margin-bottom:9px"><label class="flbl" data-key="subject">الموضوع</label><input class="finput" id="tk-subject"></div>
+    <div class="fg"><label class="flbl" data-key="description">الوصف</label><textarea class="finput" id="tk-desc" rows="3" style="resize:vertical"></textarea></div>
+    <div class="modal-footer"><button class="btn-saf" onclick="saveTicket()" data-key="submit">📨 إرسال</button><button class="btn-cancel" onclick="closeModal('modal-ticket')" data-key="cancel">إلغاء</button></div>
+  </div>
+</div>
+
+<!-- ===== CONFIRM ===== -->
+<div class="confirm-overlay" id="confirm-dialog">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirm-title" data-key="confirm_delete">تأكيد الحذف</div>
+    <div class="confirm-desc" id="confirm-desc" data-key="confirm_desc">هل أنت متأكد؟ لا يمكن التراجع.</div>
+    <div class="confirm-btns"><button class="btn-confirm-del" id="confirm-ok" data-key="delete">🗑 حذف</button><button class="btn-cancel" onclick="closeConfirm()" data-key="cancel">إلغاء</button></div>
+  </div>
+</div>
+
+
+<!-- KEFIRBOT FLOAT -->
+<div class="kfloat"><button class="kfbtn" onclick="goto('kefirbot',null)">🤖<div class="kfbadge" id="float-badge">0</div></button></div>
+
+<!-- TOAST -->
+<div id="toast-c"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="font-family:'Noto Sans Tifinagh',serif;font-size:14px;color:var(--saffron)">ⵜⵉⴼⵉⵏⴱⵖ</div>
+  <div style="font-size:10px;color:var(--txt3)">KefirSahara © 2026 — Benchabane Marwa — جميع الحقوق محفوظة | <span data-key="univ_short">جامعة تمنراست</span></div>
+  <div class="inapi" style="margin-right:auto;font-size:9px">🏅 INAPI — Claim 5 + 6</div>
+  <div style="font-size:9px;color:rgba(255,220,160,0.2)" data-key="confidential">© 2026 جميع الحقوق محفوظة — محمية قانونياً</div>
+</footer>
+
+<!-- ===================================================
+     JAVASCRIPT
+     =================================================== -->
+<script>
+'use strict';
+
+// ===== TRANSLATIONS =====
+const LANGS = {
+  ar: {
+    nav_dash:'لوحة التحكم',nav_prod:'إدارة الإنتاج',nav_qr:'نظام QR',nav_sensory:'التقييم الحسي',
+    nav_clients:'خدمة العملاء',nav_b2b:'بوابة B2B',nav_dist:'شبكة الموزعين',nav_sci:'الفضاء العلمي',nav_cult:'الفضاء الثقافي',
+    sb_main:'الوحدات الرئيسية',sb_biz:'الأعمال',sb_know:'الهوية والمعرفة',
+    dash_title:'لوحة التحكم الرئيسية',dash_sub:'أبريل 2026 | تمنراست',
+    empty_title:'لا توجد بيانات بعد',empty_desc:'أضف دفعات إنتاج وشركاء B2B لرؤية الإحصاءات هنا',
+    add_batch:'➕ إضافة دفعة إنتاج',
+    kpi_sales:'المبيعات / شهر',kpi_partners:'شركاء B2B',kpi_avg:'متوسط',kpi_batches:'دفعات إنتاج',kpi_active:'شركاء نشطون',
+    unit_bottle:'قار',
+    recent_batches:'📋 آخر الدفعات',ok_batches:'دفعات جاهزة',warn_batches:'تقترب من الانتهاء',exp_batches:'منتهية الصلاحية',active_partners:'شركاء B2B نشطون',
+    th_batch:'الدفعة',th_product:'المنتج',th_qty:'الكمية',th_exp:'الصلاحية',th_status:'الحالة',th_actions:'إجراءات',
+    no_data:'لا توجد دفعات بعد',
+    erp_title:'🏭 إدارة الإنتاج',erp_sub:'إضافة · تعديل · حذف الدفعات',
+    add_batch_title:'➕ تسجيل دفعة جديدة',f_product:'المنتج',f_qty:'الكمية (قارورة)',f_temp:'درجة الحرارة',f_exp:'تاريخ الصلاحية',f_recipe:'الوصفة',f_action:'الإجراء',save_batch:'💾 حفظ',
+    batch_log:'📋 سجل الدفعات',total:'إجمالي:',batch_word:'دفعة',
+    no_batches:'لا توجد دفعات مسجلة',no_batches_desc:'أضف أول دفعة باستخدام النموذج أعلاه',
+    qr_title:'🔲 نظام QR الذكي — Claim 5',qr_sub:'كل قارورة تحمل QR فريد — اقتصاد دائري',
+    qr_gen:'⚙ توليد QR لدفعة',f_batch:'الدفعة',qr_type:'نوع QR',loyalty:'برنامج الولاء',gen_qr:'توليد QR',
+    qr_dynamic:'QR ديناميكي (SRLN)',qr_static:'QR بسيط (ثابت)',loyalty_on:'مفعل — 10 نقاط/مسح ✅',loyalty_off:'غير مفعل ❌',
+    select_batch:'اختر دفعة...',
+    no_qr:'لا توجد دفعات لتوليد QR',no_qr_desc:'أضف دفعات إنتاج أولاً',go_erp:'🏭 الذهاب للإنتاج',
+    loyalty_prog:'⟳ برنامج الاسترجاع والولاء',recycled_month:'مسترجعة / شهر',conversion_rate:'معدل التحويل → Elixir',cost_reduction:'تخفيض التكلفة',loyalty_pts:'نقاط الولاء',
+    bot_title:'🤖 KefirBot — الذكاء الاصطناعي',bot_sub:'مدعوم بـ Claude Sonnet | يجيب على أي سؤال',
+    prod_recs:'🎯 المنتجات',claude_desc:'مدعوم بـ Claude Sonnet من Anthropic',
+    sensory_title:'⭐ التقييم الحسي',sensory_sub:'5 معايير · مرتبط بالدفعة و QR',
+    no_batch_linked:'غير مرتبط بدفعة',
+    smell:'الرائحة',taste:'المذاق',color:'اللون',texture:'القوام',fizz:'الغازية',
+    save:'حفظ',analysis:'تحليل',saved:'تم الحفظ',eval_saved:'التقييم محفوظ',
+    analytics_sub:'مؤشرات الأداء · توزيع المنتجات',
+    no_analytics:'لا توجد بيانات كافية',no_analytics_desc:'أضف دفعات وشركاء لرؤية التحليلات',
+    product_dist:'📦 توزيع المنتجات',add_batches_first:'أضف دفعات أولاً',
+    circular_eco:'⟳ الاقتصاد الدائري',recycling_rate:'معدل الاسترجاع',elixir_conv:'تحويل → Elixir',client_sat:'رضا العملاء',
+    b2b_overview:'🤝 نظرة B2B',add_partners_first:'أضف شركاء B2B أولاً',
+    cult_title:'🏺 الفضاء الثقافي التارقي',
+    brand_tagline:'KefirSahara — كفير الصحراء',brand_desc:'من أعماق الصحراء الكبرى وحضارة الطوارق — كفير Tifinagh ليس مجرد منتج، بل قصة شعب وإرث آلاف السنين من التناغم مع البيئة الصحراوية.',
+    tab_heritage:'🏺 التراث التارقي',tab_tamanrasset:'🏙 تمنراست والجنوب',tab_timeline:'📅 الخط الزمني',tab_products:'🌿 المنتجات',
+    b2b_title:'🤝 بوابة B2B',b2b_sub:'إضافة · تعديل · حذف الشركاء',
+    total_partners:'إجمالي الشركاء:',add_partner:'إضافة شريك',
+    no_partners:'لا يوجد شركاء بعد',no_partners_desc:'أضف أول شريك تجاري',
+    b2b_orders:'📋 إدارة الطلبات',orders_coming:'قريباً — نظام الطلبات',
+    dist_title:'🗺 شبكة الموزعين',dist_sub:'تمنراست → ولايات الجنوب → أفريقيا',
+    sci_title:'🔬 الفضاء العلمي',sci_sub:'منصة بحثية | جامعة تمنراست',
+    sci_coming:'الفضاء العلمي قيد الإعداد',sci_coming_desc:'سيُطلق قريباً بالتعاون مع جامعة تمنراست.',
+    clients_title:'🎫 خدمة العملاء',clients_sub:'نظام التذاكر · KefirBot متكامل',
+    new_ticket:'➕ تذكرة جديدة',all:'الكل',open:'مفتوح',urgent:'عاجل',
+    no_tickets:'لا توجد تذاكر',no_tickets_desc:'ستظهر التذاكر هنا',
+    support_stats:'📊 الدعم',total_tickets:'إجمالي التذاكر',open_tickets:'مفتوح',urgent_tickets:'عاجل',kefirbot_desc:'يجيب على الأسئلة الشائعة',
+    edit_batch:'تعديل الدفعة',save_edit:'💾 حفظ التعديل',cancel:'إلغاء',
+    partner_name:'اسم المؤسسة',partner_type:'النوع',monthly_qty:'الكمية / شهر',
+    new_ticket_title:'تذكرة جديدة',f_client:'العميل',priority:'الأولوية',subject:'الموضوع',description:'الوصف',submit:'📨 إرسال',
+    confirm_delete:'تأكيد الحذف',confirm_desc:'هل أنت متأكد؟ لا يمكن التراجع.',delete:'🗑 حذف',
+    ready:'✓ جاهز',near_exp:'⚠ قريب',expired:'✗ منتهي',active:'نشط ✅',pending:'قيد الموافقة ⏳',coming_soon2:'قريباً 🔜',
+    notif_stock:'المخزون',notif_stock_desc:'راجع مستويات المخزون',
+    univ:'جامعة تمنراست\nأبريل 2026',univ_short:'جامعة تمنراست',confidential:'© 2026 جميع الحقوق محفوظة — محمية قانونياً',
+    map_label:'🗺 خريطة التوزيع — الجزائر الجنوبية',
+    hq:'المقر',coming_soon:'قريباً',
+    active_dist:'موزعون نشطون',covered_prov:'ولايات مغطاة',b2b_dist:'موزع B2B',africa_exp:'التصدير الأفريقي',being_built:'قيد البناء',south_algeria:'جنوب الجزائر',
+    dash_overview:'📊 نظرة عامة',
+    access_levels:'🏛 مستويات الوصول',public:'عام',read_only:'قراءة فقط',researcher:'باحث',share_data:'مشاركة البيانات',manager:'مدير',full_access:'وصول كامل',
+    timeline_title:'📅 من التراث إلى الابتكار',
+    g_province:'الولاية',g_alt:'الارتفاع',g_temp:'درجة الحرارة',g_dist:'من الجزائر',g_pop:'السكان',g_langs:'اللغات',
+    g_area:'المساحة',g_peak:'أعلى قمة',g_climate:'المناخ',g_biodiv:'التنوع البيولوجي',g_unesco:'UNESCO',
+    dist_active:'موزع نشط',dist_new:'موزع جديد',g_expand:'التوسع N+2',
+    herb_antioxidant:'مضاد للأكسدة',herb_antiinflam:'مضاد للالتهابات',herb_antibacterial:'مضاد للجراثيم',herb_immune:'مقوي للمناعة',herb_digestive:'محسّن للهضم',
+    tc1_title:'شعب الطوارق — الإيمازيغن',tc1_body:'الطوارق هم السكان الأصليون للصحراء الكبرى، ويسمون أنفسهم "إيمازيغن" أي الأحرار. يعيشون في منطقة شاسعة تمتد من ليبيا إلى موريتانيا.',
+    tc2_title:'الكتابة التيفيناغية',tc2_body:'تيفيناغ هو الخط الأمازيغي القديم الذي كتبت به الطوارق حضارتهم منذ آلاف السنين.',
+    tc3_title:'اللثام والزي التارقي',tc3_body:'يشتهر رجال الطوارق باللثام الأزرق (تاغلموست). اللون الأزرق رمز النبل والحرية في ثقافتهم.',
+    tc4_title:'الموسيقى والفنون',tc4_body:'موسيقى الطوارق (تِندي) إرث عريق يجمع آلة التندي مع الغناء الجماعي.',
+    tc5_title:'الطب الصحراوي التقليدي',tc5_body:'اعتمد الطوارق على النباتات الوظيفية الصحراوية في علاجاتهم. هذه المعرفة هي الأساس الذي قامت عليه منتجات KefirSahara.',
+    tc6_title:'الاقتصاد الصحراوي',tc6_body:'ارتبط اقتصاد الطوارق بالرعي وتجارة القوافل. مفهوم الاقتصاد الدائري في KefirSahara مستوحى من ثقافتهم.',
+    tl1_title:'نشأة الحضارة التارقية',tl1_desc:'استقرار الطوارق في الصحراء الكبرى، بدء الكتابة التيفيناغية وتطوير الطب الصحراوي.',
+    tl2_title:'استقلال الجزائر',tl2_desc:'إدراج تمنراست ضمن الجمهورية الجزائرية، بداية التنمية المحلية.',
+    tl3_title:'تأسيس جامعة تمنراست',tl3_desc:'مؤسسة أكاديمية في قلب الصحراء، أتاحت البحث في الأعشاب الصحراوية.',
+    tl4_title:'ولادة فكرة KefirSahara',tl4_desc:'انطلاق المشروع من جامعة تمنراست — الجمع بين علم الكفير وأعشاب الهقار.',
+    tl5_title:'براءة الاختراع INAPI',tl5_desc:'إيداع براءة اختراع Claim 5 + 6 للنظام الذكي QR ونظام الاقتصاد الدائري.',
+    tl6_title:'التوسع الأفريقي',tl6_desc:'خطة التوسع إلى مالي، النيجر، موريتانيا — حاملين هوية الطوارق للعالم.',
+    name_story:'📖 قصة الاسم',name_story_body:'"تيفيناغ" الخط الأمازيغي القديم. KefirSahara يُحيي هذا الإرث في منتج حديث.',
+    purity_title:'🌿 النقاء الصحراوي',purity_body:'كل مكون مُصادَق من تمنراست. لا مضافات كيميائية — نقاء 100% صحراوي.',
+    ad_title:'🤝 فرص الإعلان',ad_body:'17 فندق + 94 وكالة سياحية. شراكات بمحتوى ثلاثي اللغات.',
+    seg_r1:'R1 | يانسون نجمي + صمغ عربي',seg_beauty:'R2 | كركديه',seg_energy:'R3 | زنجبيل',seg_premium:'خل كفير وظيفي | 4 صيغ',
+    r1_herbs:'مكونات نباتية محلية + مكونات نباتية محلية',r2_herbs:'مكونات نباتية محلية + مكونات نباتية محلية',r3_herbs:'مكونات نباتية محلية + مكونات نباتية محلية',el_herbs:'خل كفير وظيفي — 4 صيغ',
+    recipe1:'صيغة أساسية — مكونات نباتية محلية',recipe2:'صيغة R2 — كركديه',recipe3:'صيغة Elixir — خل كفير وظيفي 4 صيغ',
+    bot_welcome_msg:'مرحباً! أنا KefirBot، مساعدك الذكي من KefirSahara ⵜⵉⴼⵉⵏⴱⵖ\n\nاسألني أي شيء عن الكفير، الصحة، ثقافة الطوارق، أو منتجاتنا!',
+    chat_placeholder:'اسأل KefirBot أي شيء...',thinking:'KefirBot يفكر...',
+    medium:'متوسط',low:'منخفض',
+  },
+  en: {
+    nav_dash:'Dashboard',nav_prod:'Production',nav_qr:'QR System',nav_sensory:'Sensory Eval',
+    nav_clients:'Client Service',nav_b2b:'B2B Portal',nav_dist:'Distributors',nav_sci:'Science',nav_cult:'Culture',
+    sb_main:'Main Modules',sb_biz:'Business',sb_know:'Identity & Knowledge',
+    dash_title:'Main Dashboard',dash_sub:'April 2026 | Tamanrasset',
+    empty_title:'No data yet',empty_desc:'Add production batches and B2B partners to see statistics here',
+    add_batch:'➕ Add Production Batch',
+    kpi_sales:'Sales / Month',kpi_partners:'B2B Partners',kpi_avg:'Average',kpi_batches:'Batches',kpi_active:'Active Partners',
+    unit_bottle:'btl',
+    recent_batches:'📋 Recent Batches',ok_batches:'Ready batches',warn_batches:'Near expiry',exp_batches:'Expired',active_partners:'Active B2B Partners',
+    th_batch:'Batch ID',th_product:'Product',th_qty:'Qty',th_exp:'Expiry',th_status:'Status',th_actions:'Actions',
+    no_data:'No batches yet',
+    erp_title:'🏭 Production Management',erp_sub:'Add · Edit · Delete Batches',
+    add_batch_title:'➕ Register New Batch',f_product:'Product',f_qty:'Quantity (bottles)',f_temp:'Temperature',f_exp:'Expiry Date',f_recipe:'Recipe',f_action:'Action',save_batch:'💾 Save',
+    batch_log:'📋 Batch Log',total:'Total:',batch_word:'batches',
+    no_batches:'No batches registered',no_batches_desc:'Add your first batch using the form above',
+    qr_title:'🔲 Smart QR System — Claim 5',qr_sub:'Each bottle carries a unique QR — Circular Economy',
+    qr_gen:'⚙ Generate QR for Batch',f_batch:'Batch',qr_type:'QR Type',loyalty:'Loyalty Program',gen_qr:'Generate QR',
+    qr_dynamic:'Dynamic QR (SRLN)',qr_static:'Static QR',loyalty_on:'Enabled — 10 pts/scan ✅',loyalty_off:'Disabled ❌',
+    select_batch:'Select batch...',
+    no_qr:'No batches for QR generation',no_qr_desc:'Add production batches first',go_erp:'🏭 Go to Production',
+    loyalty_prog:'⟳ Recycling & Loyalty Program',recycled_month:'recycled / month',conversion_rate:'Conversion → Elixir',cost_reduction:'Cost Reduction',loyalty_pts:'Loyalty Points',
+    bot_title:'🤖 KefirBot — AI Assistant',bot_sub:'Powered by Claude Sonnet | Answers any question',
+    prod_recs:'🎯 Products',claude_desc:'Powered by Claude Sonnet from Anthropic',
+    sensory_title:'⭐ Sensory Evaluation',sensory_sub:'5 criteria · Linked to batch & QR',
+    no_batch_linked:'Not linked to batch',
+    smell:'Smell',taste:'Taste',color:'Color',texture:'Texture',fizz:'Carbonation',
+    save:'Save',analysis:'Analysis',saved:'Saved',eval_saved:'Evaluation saved',
+    analytics_sub:'Performance · Product distribution',
+    no_analytics:'Insufficient data',no_analytics_desc:'Add batches and partners to see analytics',
+    product_dist:'📦 Product Distribution',add_batches_first:'Add batches first',
+    circular_eco:'⟳ Circular Economy',recycling_rate:'Recycling Rate',elixir_conv:'Conversion → Elixir',client_sat:'Client Satisfaction',
+    b2b_overview:'🤝 B2B Overview',add_partners_first:'Add B2B partners first',
+    cult_title:'🏺 Tuareg Cultural Space',
+    brand_tagline:'KefirSahara — Saharan Kefir',brand_desc:'From the depths of the Sahara and Tuareg civilization — Tifinagh Kefir is not just a product, but the story of a people and thousands of years of harmony with the desert environment.',
+    tab_heritage:'🏺 Tuareg Heritage',tab_tamanrasset:'🏙 Tamanrasset & South',tab_timeline:'📅 Timeline',tab_products:'🌿 Products',
+    b2b_title:'🤝 B2B Portal',b2b_sub:'Add · Edit · Delete Partners',
+    total_partners:'Total Partners:',add_partner:'Add Partner',
+    no_partners:'No partners yet',no_partners_desc:'Add your first business partner',
+    b2b_orders:'📋 Order Management',orders_coming:'Coming soon — Order system',
+    dist_title:'🗺 Distributor Network',dist_sub:'Tamanrasset → Southern provinces → Africa',
+    sci_title:'🔬 Scientific Space',sci_sub:'Research platform | Tamanrasset University',
+    sci_coming:'Scientific Space under development',sci_coming_desc:'Launching soon in partnership with Tamanrasset University.',
+    clients_title:'🎫 Client Service',clients_sub:'Ticket system · Integrated KefirBot',
+    new_ticket:'➕ New Ticket',all:'All',open:'Open',urgent:'Urgent',
+    no_tickets:'No tickets',no_tickets_desc:'Tickets will appear here',
+    support_stats:'📊 Support',total_tickets:'Total Tickets',open_tickets:'Open',urgent_tickets:'Urgent',kefirbot_desc:'Answers common questions automatically',
+    edit_batch:'Edit Batch',save_edit:'💾 Save Changes',cancel:'Cancel',
+    partner_name:'Institution Name',partner_type:'Type',monthly_qty:'Qty / Month',
+    new_ticket_title:'New Ticket',f_client:'Client',priority:'Priority',subject:'Subject',description:'Description',submit:'📨 Submit',
+    confirm_delete:'Confirm Delete',confirm_desc:'Are you sure? This cannot be undone.',delete:'🗑 Delete',
+    ready:'✓ Ready',near_exp:'⚠ Near Expiry',expired:'✗ Expired',active:'Active ✅',pending:'Pending ⏳',coming_soon2:'Coming Soon 🔜',
+    notif_stock:'Inventory',notif_stock_desc:'Check inventory levels',
+    univ:'Tamanrasset University\nأبريل 2026',univ_short:'Tamanrasset University',confidential:'Confidential document — Protected',
+    map_label:'🗺 Distribution Map — Southern Algeria',
+    hq:'HQ',coming_soon:'Coming Soon',
+    active_dist:'Active Distributors',covered_prov:'Covered Provinces',b2b_dist:'B2B Distributor',africa_exp:'African Export',being_built:'Under Construction',south_algeria:'Southern Algeria',
+    dash_overview:'📊 Overview',
+    access_levels:'🏛 Access Levels',public:'Public',read_only:'Read only',researcher:'Researcher',share_data:'Share data',manager:'Manager',full_access:'Full access',
+    timeline_title:'📅 From Heritage to Innovation',
+    g_province:'Province',g_alt:'Altitude',g_temp:'Temperature',g_dist:'From Algiers',g_pop:'Population',g_langs:'Languages',
+    g_area:'Area',g_peak:'Highest Peak',g_climate:'Climate',g_biodiv:'Biodiversity',g_unesco:'UNESCO',
+    dist_active:'Active distributor',dist_new:'New distributor',g_expand:'Expansion N+2',
+    herb_antioxidant:'Antioxidant',herb_antiinflam:'Anti-inflammatory',herb_antibacterial:'Antibacterial',herb_immune:'Immune booster',herb_digestive:'Digestive aid',
+    tc1_title:'The Tuareg People — Imazighen',tc1_body:'The Tuareg are the indigenous people of the Sahara, calling themselves "Imazighen" meaning the Free. They inhabit a vast region from Libya to Mauritania.',
+    tc2_title:'Tifinagh Writing',tc2_body:'Tifinagh is the ancient Amazigh script the Tuareg used to write their civilization for thousands of years.',
+    tc3_title:'The Tagelmust & Tuareg Dress',tc3_body:'Tuareg men are known for their blue veil (Tagelmust). Blue symbolizes nobility and freedom in their culture.',
+    tc4_title:'Music & Arts',tc4_body:'Tuareg music (Tende) is an ancient heritage combining the Tende drum with communal singing.',
+    tc5_title:'Traditional Desert Medicine',tc5_body:'The Tuareg relied on local functional desert plants in their traditional remedies for thousands of years — the foundation of KefirSahara.',
+    tc6_title:'Desert Economy',tc6_body:'Tuareg economy revolved around herding and caravan trade. KefirSahara\'s circular economy concept is inspired by their zero-waste culture.',
+    tl1_title:'Tuareg Civilization Emerges',tl1_desc:'The Tuareg settle in the Sahara, begin using Tifinagh script and develop traditional knowledge of functional desert plants.',
+    tl2_title:'Algerian Independence',tl2_desc:'Tamanrasset becomes part of the Algerian Republic, beginning official focus on southern heritage.',
+    tl3_title:'Tamanrasset University Founded',tl3_desc:'An academic institution in the heart of the Sahara, enabling scientific research on local natural resources.',
+    tl4_title:'KefirSahara Idea Born',tl4_desc:'Project launches from Tamanrasset University — combining modern kefir science with Hoggar herbs.',
+    tl5_title:'INAPI Patent Filed',tl5_desc:'Filing of Claim 5 + 6 patent for the smart QR system (SRLN) and bottle circular economy system.',
+    tl6_title:'African Expansion',tl6_desc:'Expansion plan to Mali, Niger, Mauritania — carrying Tuareg identity to the world.',
+    name_story:'📖 Name Story',name_story_body:'"Tifinagh" is the ancient Amazigh script. KefirSahara revives this heritage in a modern product.',
+    purity_title:'🌿 Saharan Purity',purity_body:'Every ingredient sourced from Tamanrasset. No chemicals — 100% scientifically certified Saharan purity.',
+    ad_title:'🤝 Advertising Opportunities',ad_body:'17 hotels + 94 tourist agencies. Trilingual content: Arabic + French + Tifinagh.',
+    seg_r1:'Segment R1 | Morning',seg_beauty:'Segment R2 | Women',seg_energy:'Segment R3 | Youth',seg_premium:'Premium | 5 herbs',
+    r1_herbs:'Anis étoilé + Gomme arabique',r2_herbs:'Hibiscus',r3_herbs:'Gingembre frais',el_herbs:'Kéfir d\'eau fermenté — 4 formules',
+    recipe1:'Basic formula — milk + local kefir grains',recipe2:'Premium formula — aloe + desert thyme',recipe3:'Elixir formula — 5 rare Saharan herbs',
+    bot_welcome_msg:'Hello! I\'m KefirBot, your smart assistant from KefirSahara ⵜⵉⴼⵉⵏⴱⵖ\n\nAsk me anything about kefir, health, Tuareg culture, or our products!',
+    chat_placeholder:'Ask KefirBot anything...',thinking:'KefirBot is thinking...',
+    medium:'Medium',low:'Low',
+  },
+  fr: {
+    nav_dash:'Tableau de bord',nav_prod:'Production',nav_qr:'Système QR',nav_sensory:'Éval. Sensorielle',
+    nav_clients:'Service Client',nav_b2b:'Portail B2B',nav_dist:'Distributeurs',nav_sci:'Espace Scientifique',nav_cult:'Espace Culturel',
+    sb_main:'Modules Principaux',sb_biz:'Affaires',sb_know:'Identité & Savoir',
+    dash_title:'Tableau de Bord Principal',dash_sub:'Avril 2026 | Tamanrasset',
+    empty_title:'Aucune donnée',empty_desc:'Ajoutez des lots de production et des partenaires B2B',
+    add_batch:'➕ Ajouter un lot',
+    kpi_sales:'Ventes / Mois',kpi_partners:'Partenaires B2B',kpi_avg:'Moyenne',kpi_batches:'Lots',kpi_active:'Partenaires actifs',
+    unit_bottle:'bts',
+    recent_batches:'📋 Derniers lots',ok_batches:'Lots prêts',warn_batches:'Proche expiration',exp_batches:'Expirés',active_partners:'Partenaires B2B actifs',
+    th_batch:'N° Lot',th_product:'Produit',th_qty:'Qté',th_exp:'Expiration',th_status:'Statut',th_actions:'Actions',
+    no_data:'Aucun lot encore',
+    erp_title:'🏭 Gestion de Production',erp_sub:'Ajouter · Modifier · Supprimer des lots',
+    add_batch_title:'➕ Enregistrer un nouveau lot',f_product:'Produit',f_qty:'Quantité (bouteilles)',f_temp:'Température',f_exp:"Date d'expiration",f_recipe:'Recette',f_action:'Action',save_batch:'💾 Enregistrer',
+    batch_log:'📋 Registre des lots',total:'Total:',batch_word:'lots',
+    no_batches:'Aucun lot enregistré',no_batches_desc:'Ajoutez votre premier lot via le formulaire ci-dessus',
+    qr_title:'🔲 Système QR Intelligent — Claim 5',qr_sub:'Chaque bouteille porte un QR unique — Économie circulaire',
+    qr_gen:'⚙ Générer QR pour un lot',f_batch:'Lot',qr_type:'Type QR',loyalty:'Programme Fidélité',gen_qr:'Générer QR',
+    qr_dynamic:'QR Dynamique (SRLN)',qr_static:'QR Statique',loyalty_on:'Activé — 10 pts/scan ✅',loyalty_off:'Désactivé ❌',
+    select_batch:'Choisir un lot...',
+    no_qr:'Aucun lot pour la génération QR',no_qr_desc:'Ajoutez des lots de production en premier',go_erp:'🏭 Aller à la Production',
+    loyalty_prog:'⟳ Programme de Récupération & Fidélité',recycled_month:'récupérées / mois',conversion_rate:'Conversion → Elixir',cost_reduction:'Réduction des coûts',loyalty_pts:'Points de fidélité',
+    bot_title:'🤖 KefirBot — Assistant IA',bot_sub:'Propulsé par Claude Sonnet | Répond à toutes les questions',
+    prod_recs:'🎯 Produits',claude_desc:'Propulsé par Claude Sonnet d\'Anthropic',
+    sensory_title:'⭐ Évaluation Sensorielle',sensory_sub:'5 critères · Lié au lot et QR',
+    no_batch_linked:'Non lié à un lot',
+    smell:'Odeur',taste:'Goût',color:'Couleur',texture:'Texture',fizz:'Carbonatation',
+    save:'Enregistrer',analysis:'Analyse',saved:'Enregistré',eval_saved:"Évaluation sauvegardée",
+    analytics_sub:'Indicateurs · Distribution des produits',
+    no_analytics:'Données insuffisantes',no_analytics_desc:'Ajoutez des lots et partenaires',
+    product_dist:'📦 Distribution des Produits',add_batches_first:'Ajoutez des lots en premier',
+    circular_eco:'⟳ Économie Circulaire',recycling_rate:'Taux de récupération',elixir_conv:'Conversion → Elixir',client_sat:'Satisfaction client',
+    b2b_overview:'🤝 Vue B2B',add_partners_first:'Ajoutez des partenaires B2B en premier',
+    cult_title:'🏺 Espace Culturel Touareg',
+    brand_tagline:'KefirSahara — Kéfir du Sahara',brand_desc:"Des profondeurs du Sahara et de la civilisation Touareg — le Kéfir Tifinagh n'est pas seulement un produit, c'est l'histoire d'un peuple.",
+    tab_heritage:'🏺 Héritage Touareg',tab_tamanrasset:'🏙 Tamanrasset & Sud',tab_timeline:'📅 Chronologie',tab_products:'🌿 Produits',
+    b2b_title:'🤝 Portail B2B',b2b_sub:'Ajouter · Modifier · Supprimer des partenaires',
+    total_partners:'Total partenaires:',add_partner:'Ajouter un partenaire',
+    no_partners:'Aucun partenaire',no_partners_desc:'Ajoutez votre premier partenaire commercial',
+    b2b_orders:'📋 Gestion des commandes',orders_coming:'Bientôt — Système de commandes',
+    dist_title:'🗺 Réseau de Distribution',dist_sub:'Tamanrasset → Wilayas du Sud → Afrique',
+    sci_title:'🔬 Espace Scientifique',sci_sub:'Plateforme de recherche | Université Tamanrasset',
+    sci_coming:'Espace Scientifique en préparation',sci_coming_desc:'Lancement prochain en partenariat avec l\'Université Tamanrasset.',
+    clients_title:'🎫 Service Client',clients_sub:'Système de tickets · KefirBot intégré',
+    new_ticket:'➕ Nouveau ticket',all:'Tout',open:'Ouvert',urgent:'Urgent',
+    no_tickets:'Aucun ticket',no_tickets_desc:'Les tickets apparaîtront ici',
+    support_stats:'📊 Support',total_tickets:'Total tickets',open_tickets:'Ouvert',urgent_tickets:'Urgent',kefirbot_desc:'Répond automatiquement aux questions fréquentes',
+    edit_batch:'Modifier le lot',save_edit:'💾 Enregistrer',cancel:'Annuler',
+    partner_name:"Nom de l'institution",partner_type:'Type',monthly_qty:'Qté / Mois',
+    new_ticket_title:'Nouveau Ticket',f_client:'Client',priority:'Priorité',subject:'Sujet',description:'Description',submit:'📨 Envoyer',
+    confirm_delete:'Confirmer la suppression',confirm_desc:'Êtes-vous sûr ? Cette action est irréversible.',delete:'🗑 Supprimer',
+    ready:'✓ Prêt',near_exp:'⚠ Proche expiration',expired:'✗ Expiré',active:'Actif ✅',pending:'En attente ⏳',coming_soon2:'Bientôt 🔜',
+    notif_stock:'Inventaire',notif_stock_desc:"Vérifiez les niveaux d'inventaire",
+    univ:'Université Tamanrasset\nأبريل 2026',univ_short:'Université Tamanrasset',confidential:'Document confidentiel — Protégé',
+    map_label:'🗺 Carte de distribution — Algérie du Sud',
+    hq:'Siège',coming_soon:'Bientôt',
+    active_dist:'Distributeurs actifs',covered_prov:'Wilayas couvertes',b2b_dist:'Distributeur B2B',africa_exp:'Export Africain',being_built:'En construction',south_algeria:'Algérie du Sud',
+    dash_overview:'📊 Vue générale',
+    access_levels:'🏛 Niveaux d\'accès',public:'Public',read_only:'Lecture seule',researcher:'Chercheur',share_data:'Partager données',manager:'Directeur',full_access:'Accès complet',
+    timeline_title:'📅 Du Patrimoine à l\'Innovation',
+    g_province:'Wilaya',g_alt:'Altitude',g_temp:'Température',g_dist:'Depuis Alger',g_pop:'Population',g_langs:'Langues',
+    g_area:'Superficie',g_peak:'Point culminant',g_climate:'Climat',g_biodiv:'Biodiversité',g_unesco:'UNESCO',
+    dist_active:'Distributeur actif',dist_new:'Nouveau distributeur',g_expand:'Expansion N+2',
+    herb_antioxidant:'Antioxydant',herb_antiinflam:'Anti-inflammatoire',herb_antibacterial:'Antibactérien',herb_immune:'Immunostimulant',herb_digestive:'Digestif',
+    tc1_title:'Le Peuple Touareg — Imazighen',tc1_body:'Les Touaregs sont les peuples autochtones du Sahara, se nommant "Imazighen" signifiant les Hommes Libres.',
+    tc2_title:'L\'Écriture Tifinagh',tc2_body:"Tifinagh est l'ancien alphabet amazigh que les Touaregs ont utilisé pour écrire leur civilisation depuis des millénaires.",
+    tc3_title:'Le Tagelmust & le Costume Touareg',tc3_body:'Les hommes touaregs sont reconnus pour leur voile bleu (Tagelmust). Le bleu symbolise noblesse et liberté.',
+    tc4_title:'Musique & Arts',tc4_body:'La musique Touareg (Tende) est un riche héritage alliant le tambour Tende au chant collectif.',
+    tc5_title:'Médecine Traditionnelle du Désert',tc5_body:'Les Touaregs s\'appuyaient sur les plantes fonctionnelles du désert dans leurs remèdes traditionnels — la base de KefirSahara.',
+    tc6_title:'Économie du Désert',tc6_body:"L'économie Touareg s'articulait autour de l'élevage et du commerce caravanier — source d'inspiration pour l'économie circulaire.",
+    tl1_title:'Naissance de la Civilisation Touareg',tl1_desc:'Les Touaregs s\'installent dans le Sahara, commencent à utiliser l\'écriture Tifinagh.',
+    tl2_title:'Indépendance Algérienne',tl2_desc:'Tamanrasset devient partie de la République Algérienne.',
+    tl3_title:'Fondation Université Tamanrasset',tl3_desc:'Une institution académique au cœur du Sahara, permettant la recherche sur les ressources naturelles locales.',
+    tl4_title:'Naissance de l\'Idée KefirSahara',tl4_desc:"Lancement du projet depuis l'Université Tamanrasset — union de la science du kéfir et des herbes du Hoggar.",
+    tl5_title:'Brevet INAPI Déposé',tl5_desc:'Dépôt du brevet Claim 5 + 6 pour le système QR intelligent et le système d\'économie circulaire.',
+    tl6_title:'Expansion Africaine',tl6_desc:'Plan d\'expansion vers le Mali, Niger, Mauritanie — portant l\'identité Touareg dans le monde.',
+    name_story:'📖 Histoire du Nom',name_story_body:'"Tifinagh" est l\'ancien alphabet amazigh. KefirSahara fait revivre cet héritage dans un produit moderne.',
+    purity_title:'🌿 Pureté Saharienne',purity_body:'Chaque ingrédient sourcé depuis Tamanrasset. Aucun additif chimique — 100% pureté saharienne certifiée.',
+    ad_title:'🤝 Opportunités Publicitaires',ad_body:'17 hôtels + 94 agences touristiques. Contenu trilingue: Arabe + Français + Tifinagh.',
+    seg_r1:'Segment R1 | Matin',seg_beauty:'Segment R2 | Femmes',seg_energy:'Segment R3 | Jeunes',seg_premium:'Premium | 5 herbes',
+    r1_herbs:'Truffe du désert + Thym du Hoggar',r2_herbs:'Argan saharien + Cactus Tifinagh',r3_herbs:'Datte + Miel du Hoggar',el_herbs:'Armoise + Tiballt + Idas...',
+    recipe1:'Formule de base — lait + grains de kéfir locaux',recipe2:'Formule Premium — aloe vera + thym saharien',recipe3:'Formule Elixir — 5 herbes sahariennes rares',
+    bot_welcome_msg:'Bonjour! Je suis KefirBot, votre assistant intelligent de KefirSahara ⵜⵉⴼⵉⵏⴱⵖ\n\nPosez-moi n\'importe quelle question sur le kéfir, la santé, la culture Touareg ou nos produits!',
+    chat_placeholder:'Posez une question à KefirBot...',thinking:'KefirBot réfléchit...',
+    medium:'Moyen',low:'Faible',
+  }
+};
+let currentLang = 'ar';
+
+function t(key) {
+  return LANGS[currentLang]?.[key] || LANGS['ar'][key] || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  const root = document.getElementById('html-root');
+  const body = document.getElementById('body-root');
+  if (lang === 'en') { root.setAttribute('lang','en'); root.removeAttribute('dir'); body.classList.add('ltr'); }
+  else if (lang === 'fr') { root.setAttribute('lang','fr'); root.removeAttribute('dir'); body.classList.add('ltr'); }
+  else { root.setAttribute('lang','ar'); root.setAttribute('dir','rtl'); body.classList.remove('ltr'); }
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('lang-'+lang).classList.add('active');
+  // Update all data-key elements
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    const val = t(key);
+    if (val && val !== key) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = val;
+      else el.textContent = val;
+    }
+  });
+  // Update chat placeholder
+  const ci = document.getElementById('chat-input');
+  if(ci) ci.placeholder = t('chat_placeholder');
+  // Update thinking text
+  const th = document.getElementById('thinking-txt');
+  if(th) th.textContent = t('thinking');
+  // Update bot status
+  const bs = document.getElementById('bot-status');
+  if(bs) bs.textContent = '● Claude Sonnet — ' + (lang==='en'?'Ready':lang==='fr'?'Prêt':'جاهز');
+  const cs = document.getElementById('claude-status');
+  if(cs) cs.textContent = lang==='en'?'Connected — Claude API':lang==='fr'?'Connecté — Claude API':'متصل — Claude API';
+  // Refresh renders
+  renderERP(); renderB2B(); renderDashboard(); renderAnalytics();
+  toast('🌐', lang==='en'?'Language':'Langue', lang==='en'?'English activated':lang==='fr'?'Français activé':'العربية مفعّلة');
+}
+
+// ===== DATA STORES (start empty) =====
+let erpData = [];
+let b2bData = [];
+let ticketData = [];
+let qrData = []; // scans
+let confirmCallback = null;
+
+// ===== NAVIGATION =====
+function goto(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) { pg.classList.add('active'); pg.classList.remove('fade-up'); void pg.offsetWidth; pg.classList.add('fade-up'); }
+  document.querySelectorAll('.ntab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else { const nb = document.getElementById('nt-' + id); if(nb) nb.classList.add('active'); }
+  document.querySelectorAll('.sb-item').forEach(s => s.classList.remove('active'));
+  const si = document.getElementById('si-' + id);
+  if (si) si.classList.add('active');
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+  const ok = erpData.filter(r=>r.status==='ok').length;
+  const warn = erpData.filter(r=>r.status==='warn').length;
+  const exp = erpData.filter(r=>r.status==='exp').length;
+  const totalQty = erpData.reduce((a,b)=>a+b.qty,0);
+  const activeB2B = b2bData.filter(p=>p.status==='active').length;
+  const total = erpData.length;
+
+  document.getElementById('kpi-bottles').textContent = totalQty.toLocaleString();
+  document.getElementById('kpi-partners').textContent = b2bData.length;
+  document.getElementById('kpi-batches').textContent = total;
+  // CFU
+  const withCFU = erpData.filter(r=>r.cfu&&r.cfu.includes('×'));
+  document.getElementById('kpi-cfu').textContent = withCFU.length ? withCFU[0].cfu : '—';
+  document.getElementById('kpi-cfu-trend').textContent = withCFU.length ? '↑ CFU ممتاز' : '—';
+
+  // Overview bars
+  const setBar = (id, barId, val, max) => {
+    const el = document.getElementById(id); if(el) el.textContent = val;
+    const bar = document.getElementById(barId); if(bar) bar.style.width = (max?Math.round(val/max*100):0)+'%';
+  };
+  setBar('ov-ok','ov-ok-bar',ok,total||1);
+  setBar('ov-warn','ov-warn-bar',warn,total||1);
+  setBar('ov-exp','ov-exp-bar',exp,total||1);
+  setBar('ov-b2b','ov-b2b-bar',activeB2B,b2bData.length||1);
+
+  // Recent batches table
+  const tbody = document.getElementById('dash-recent-tbody');
+  if (!total) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:18px">${t('no_data')}</td></tr>`;
+  } else {
+    tbody.innerHTML = erpData.slice(0,5).map(r => {
+      const pBadge = (r.product.includes('R1')||r.product.includes('نجمة'))&&!r.product.includes('Elixir')?'b-r1':(r.product.includes('R2')||r.product.includes('كركديه'))&&!r.product.includes('Elixir')?'b-r2':(r.product.includes('R3')||r.product.includes('زنجبيل'))&&!r.product.includes('Elixir')?'b-r3':'b-el';
+      const sBadge = r.status==='ok'?`<span class="badge b-ok">${t('ready')}</span>`:r.status==='warn'?`<span class="badge b-warn">${t('near_exp')}</span>`:`<span class="badge b-exp">${t('expired')}</span>`;
+      return `<tr><td class="mono">${r.id}</td><td><span class="badge ${pBadge}">${r.product}</span></td><td>${r.qty}</td><td class="mono">${r.ph}</td><td>${sBadge}</td></tr>`;
+    }).join('');
+  }
+
+  // Badges
+  const warnBatches = warn + exp;
+  document.getElementById('erp-badge').textContent = warnBatches;
+  document.getElementById('erp-badge').style.display = warnBatches?'':'none';
+  document.getElementById('float-badge').textContent = ticketData.filter(t=>t.status==='urgent').length;
+}
+
+// ===== ERP =====
+function renderERP() {
+  const tbody = document.getElementById('erp-tbody');
+  const table = document.getElementById('erp-table');
+  const empty = document.getElementById('erp-empty');
+  const count = document.getElementById('erp-count');
+  count.textContent = erpData.length;
+  if (!erpData.length) { empty.style.display='block'; table.style.display='none'; return; }
+  empty.style.display='none'; table.style.display='table';
+  tbody.innerHTML = erpData.map(r => {
+    const pBadge = (r.product.includes('R1')||r.product.includes('نجمة'))&&!r.product.includes('Elixir')?'b-r1':(r.product.includes('R2')||r.product.includes('كركديه'))&&!r.product.includes('Elixir')?'b-r2':(r.product.includes('R3')||r.product.includes('زنجبيل'))&&!r.product.includes('Elixir')?'b-r3':'b-el';
+    const sBadge = r.status==='ok'?`<span class="badge b-ok">${t('ready')}</span>`:r.status==='warn'?`<span class="badge b-warn">${t('near_exp')}</span>`:`<span class="badge b-exp">${t('expired')}</span>`;
+    const d = r.exp ? r.exp.split('-').reverse().join('/') : '—';
+    return `<tr>
+      <td class="mono">${r.id}</td>
+      <td><span class="badge ${pBadge}">${r.product}</span></td>
+      <td>${r.qty}</td>
+      <td class="mono">${r.ph||'—'}</td>
+      <td class="mono">${r.cfu||'—'}</td>
+      <td class="mono">${d}</td>
+      <td>${sBadge}</td>
+      <td><div style="display:flex;gap:4px">
+        <button class="btn-edit" onclick="erpEdit('${r.id}')">✏ ${t('save').includes('Save')||currentLang==='en'?'Edit':'تعديل'}</button>
+        <button class="btn-del" onclick="erpDelete('${r.id}')">🗑</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  // Update QR dropdown
+  const sel = document.getElementById('qr-batch-sel');
+  if (sel) {
+    sel.innerHTML = `<option>${t('select_batch')}</option>` + erpData.map(r=>`<option value="${r.id}">${r.id} — ${r.qty} ${t('unit_bottle')}</option>`).join('');
+  }
+  renderDashboard();
+}
+
+function erpSave() {
+  const pfxMap = {'R1':'R1','R2':'R2','R3':'R3','EL':'EL'};
+  const pv = document.getElementById('erp-product').value;
+  const pfx = pfxMap[pv] || 'B';
+  const qty = parseInt(document.getElementById('erp-qty').value)||0;
+  const ph = parseFloat(document.getElementById('erp-ph').value)||0;
+  const cfu = document.getElementById('erp-cfu').value.trim();
+  const exp = document.getElementById('erp-exp').value;
+  const temp = document.getElementById('erp-temp').value;
+  if (!qty) { toast('⚠', t('th_actions'), currentLang==='en'?'Please fill required fields':currentLang==='fr'?'Veuillez remplir les champs requis':'يرجى ملء الكمية'); return; }
+  const eid = document.getElementById('erp-edit-id').value;
+  const now = new Date(); const expD = exp ? new Date(exp) : null;
+  const diff = expD ? (expD - now)/(1000*60*60*24) : 999;
+  const status = diff < 0 ? 'exp' : diff < 15 ? 'warn' : 'ok';
+  const productLabel = pv==='R1'?'R1 — نجمة الأرض':pv==='R2'?'R2 — الكركديه':pv==='R3'?'R3 — الزنجبيل':'Elixir Tifinagh — خل كفير وظيفي 4 صيغ';
+  if (eid) {
+    const idx = erpData.findIndex(r=>r.id===eid);
+    if (idx >= 0) erpData[idx] = {...erpData[idx], product:productLabel, qty, ph, cfu, exp, temp, status};
+    toast('✅', t('saved'), `${eid}`);
+    document.getElementById('erp-edit-id').value='';
+    document.getElementById('erp-form-title').textContent = t('add_batch_title');
+  } else {
+    const nid = `${pfx}-${String(Math.floor(Math.random()*900)+100).padStart(3,'0')}`;
+    erpData.unshift({id:nid, product:productLabel, qty, ph, cfu, exp, temp, status});
+    toast('✅', t('add_batch_title'), `${nid} — ${qty} ${t('unit_bottle')}`);
+  }
+  renderERP(); renderQR(); erpClear();
+}
+
+function erpClear() {
+  ['erp-qty','erp-ph','erp-cfu','erp-exp','erp-temp'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('erp-edit-id').value='';
+  document.getElementById('erp-form-title').textContent = t('add_batch_title');
+}
+
+function erpEdit(id) {
+  const r = erpData.find(x=>x.id===id); if(!r) return;
+  document.getElementById('m-id').value = id;
+  document.getElementById('m-qty').value = r.qty;
+  document.getElementById('m-ph').value = r.ph;
+  document.getElementById('m-cfu').value = r.cfu;
+  document.getElementById('m-exp').value = r.exp||'';
+  document.getElementById('m-status').value = r.status;
+  document.getElementById('modal-erp-title').textContent = `${t('edit_batch')} ${id}`;
+  openModal('modal-erp');
+}
+
+function erpModalSave() {
+  const id = document.getElementById('m-id').value;
+  const idx = erpData.findIndex(r=>r.id===id); if(idx<0) return;
+  erpData[idx] = {...erpData[idx],
+    qty: parseInt(document.getElementById('m-qty').value)||erpData[idx].qty,
+    ph: parseFloat(document.getElementById('m-ph').value)||erpData[idx].ph,
+    cfu: document.getElementById('m-cfu').value||erpData[idx].cfu,
+    exp: document.getElementById('m-exp').value||erpData[idx].exp,
+    status: document.getElementById('m-status').value
+  };
+  renderERP(); closeModal('modal-erp'); toast('✅', t('saved'), id);
+}
+
+function erpDelete(id) {
+  showConfirm(`${t('confirm_delete')}: ${id}`, t('confirm_desc'), () => {
+    erpData = erpData.filter(r=>r.id!==id);
+    renderERP(); renderQR(); toast('🗑', t('delete'), id);
+  });
+}
+
+// ===== QR =====
+function renderQR() {
+  const grid = document.getElementById('qr-grid');
+  const empty = document.getElementById('qr-empty');
+  if (!erpData.length) { empty.style.display='block'; grid.innerHTML=''; return; }
+  empty.style.display='none';
+  grid.innerHTML = erpData.slice(0,6).map(r => {
+    const color = r.product.includes('R1')?'#F0C14A':r.product.includes('R2')?'#E8713F':r.product.includes('R3')?'#5BAFD4':'#F0A500';
+    const emoji = r.product.includes('R1')?'🟡':r.product.includes('R2')?'🔴':r.product.includes('R3')?'🔵':'✨';
+    const d = r.exp ? r.exp.split('-').reverse().join('/') : '—';
+    return `<div class="qr-card">
+      <div class="qr-box">
+        <svg width="68" height="68" viewBox="0 0 68 68">
+          <rect width="68" height="68" fill="white"/>
+          <rect x="4" y="4" width="16" height="16" rx="2" fill="#1A120A"/>
+          <rect x="7" y="7" width="10" height="10" rx="1" fill="white"/>
+          <rect x="9" y="9" width="6" height="6" rx="1" fill="#1A120A"/>
+          <rect x="48" y="4" width="16" height="16" rx="2" fill="#1A120A"/>
+          <rect x="51" y="7" width="10" height="10" rx="1" fill="white"/>
+          <rect x="53" y="9" width="6" height="6" rx="1" fill="#1A120A"/>
+          <rect x="4" y="48" width="16" height="16" rx="2" fill="#1A120A"/>
+          <rect x="7" y="51" width="10" height="10" rx="1" fill="white"/>
+          <rect x="9" y="53" width="6" height="6" rx="1" fill="#1A120A"/>
+          <rect x="26" y="4" width="3" height="3" fill="#1A120A"/>
+          <rect x="30" y="6" width="3" height="3" fill="${color}"/>
+          <rect x="26" y="26" width="3" height="3" fill="${color}"/>
+          <rect x="30" y="26" width="3" height="3" fill="#1A120A"/>
+          <rect x="34" y="28" width="3" height="3" fill="#1DCEA8"/>
+          <rect x="26" y="30" width="3" height="3" fill="#1A120A"/>
+          <rect x="30" y="34" width="3" height="3" fill="${color}"/>
+          <rect x="26" y="36" width="3" height="3" fill="#1A120A"/>
+          <rect x="34" y="32" width="3" height="3" fill="${color}"/>
+          <rect x="38" y="26" width="3" height="3" fill="#1A120A"/>
+          <rect x="42" y="28" width="3" height="3" fill="${color}"/>
+          <rect x="38" y="32" width="3" height="3" fill="#1A120A"/>
+          <rect x="42" y="36" width="3" height="3" fill="#1DCEA8"/>
+          <rect x="26" y="42" width="3" height="3" fill="${color}"/>
+          <rect x="30" y="44" width="3" height="3" fill="#1A120A"/>
+          <rect x="34" y="42" width="3" height="3" fill="#1A120A"/>
+          <rect x="38" y="44" width="3" height="3" fill="${color}"/>
+          <rect x="42" y="42" width="3" height="3" fill="#1A120A"/>
+          <rect x="26" y="48" width="3" height="3" fill="#1A120A"/>
+          <rect x="30" y="50" width="3" height="3" fill="${color}"/>
+          <rect x="34" y="48" width="3" height="3" fill="#1DCEA8"/>
+          <rect x="42" y="50" width="3" height="3" fill="${color}"/>
+          <rect x="48" y="26" width="3" height="3" fill="#1A120A"/>
+          <rect x="52" y="28" width="3" height="3" fill="${color}"/>
+          <rect x="56" y="26" width="3" height="3" fill="#1DCEA8"/>
+          <rect x="48" y="32" width="3" height="3" fill="${color}"/>
+          <rect x="56" y="34" width="3" height="3" fill="#1A120A"/>
+          <rect x="4" y="26" width="3" height="3" fill="#1A120A"/>
+          <rect x="8" y="28" width="3" height="3" fill="${color}"/>
+          <rect x="12" y="26" width="3" height="3" fill="#1A120A"/>
+          <rect x="16" y="28" width="3" height="3" fill="#1DCEA8"/>
+          <rect x="4" y="32" width="3" height="3" fill="${color}"/>
+          <rect x="8" y="34" width="3" height="3" fill="#1A120A"/>
+          <rect x="4" y="36" width="3" height="3" fill="#1A120A"/>
+          <rect x="8" y="38" width="3" height="3" fill="${color}"/>
+        </svg>
+      </div>
+      <div class="qr-name">${emoji} ${r.id}</div>
+      <div>
+        <div class="qr-row"><span class="qr-key">${t('th_product')}</span><span class="qr-val">${r.product}</span></div>
+        <div class="qr-row"><span class="qr-key">CFU</span><span class="qr-val">${r.cfu||'—'}</span></div>
+        <div class="qr-row"><span class="qr-key">pH</span><span class="qr-val">${r.ph||'—'}</span></div>
+        <div class="qr-row"><span class="qr-key">${t('th_exp')}</span><span class="qr-val" style="color:var(--teal2)">${d}</span></div>
+      </div>
+      <div class="qr-actions">
+        <button class="btn-teal" onclick="simulateScan('${r.id}')">📱 Scan</button>
+        <button class="btn-out">🖨 Print</button>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('stat-recycled').textContent = qrData.length;
+  document.getElementById('stat-points').textContent = qrData.length * 10;
+}
+
+function genQR() {
+  const sel = document.getElementById('qr-batch-sel');
+  if (!sel.value || sel.value === t('select_batch')) { toast('⚠','QR', currentLang==='en'?'Select a batch first':currentLang==='fr'?'Choisissez un lot':'اختر دفعة أولاً'); return; }
+  toast('🔲', t('gen_qr'), sel.value + ' — QR OK');
+}
+
+function simulateScan(id) {
+  qrData.push({id, time: new Date().toISOString()});
+  document.getElementById('stat-recycled').textContent = qrData.length;
+  document.getElementById('stat-points').textContent = qrData.length * 10;
+  toast('📱', 'QR Scan', `${id} — +10 ${t('loyalty_pts')}`);
+}
+
+// ===== B2B =====
+function renderB2B() {
+  const grid = document.getElementById('b2b-grid');
+  const empty = document.getElementById('b2b-empty');
+  const count = document.getElementById('b2b-count');
+  const ordSec = document.getElementById('b2b-orders-section');
+  count.textContent = b2bData.length;
+  if (!b2bData.length) {
+    empty.style.display='block'; grid.innerHTML='';
+    if(ordSec) ordSec.style.display='none';
+    renderAnalytics(); return;
+  }
+  empty.style.display='none';
+  if(ordSec) ordSec.style.display='block';
+  const stMap = {active:t('active'),pending:t('pending'),soon:t('coming_soon2')};
+  const stColor = {active:'var(--teal2)',pending:'var(--warn)',soon:'var(--txt3)'};
+  grid.innerHTML = b2bData.map(p => `
+    <div class="partner-card">
+      <div class="p-logo" style="background:rgba(240,165,0,0.1)">${p.type.split(' ')[0]}</div>
+      <div class="p-name">${p.name}</div>
+      <div class="p-type">${p.type}</div>
+      <div style="font-size:9.5px;color:${stColor[p.status]||'var(--txt3)'};margin-bottom:8px;font-weight:700">${stMap[p.status]||p.status}</div>
+      <div class="p-stats"><div><span class="p-sv">${p.qty||'—'}</span><span class="p-sk">${t('unit_bottle')}/${currentLang==='en'?'mo':currentLang==='fr'?'mois':'شهر'}</span></div></div>
+      <div style="display:flex;gap:5px;margin-top:9px">
+        <button class="btn-edit" onclick="b2bEdit(${p.id});event.stopPropagation()">✏</button>
+        <button class="btn-del" onclick="b2bDelete(${p.id});event.stopPropagation()">🗑</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('b2b-badge').textContent = b2bData.length;
+  renderDashboard(); renderAnalytics();
+}
+
+function openB2BModal() {
+  document.getElementById('b-id').value=''; document.getElementById('b-name').value=''; document.getElementById('b-qty').value='';
+  document.getElementById('modal-b2b-title').textContent = t('add_partner');
+  openModal('modal-b2b');
+}
+function b2bEdit(id) {
+  const p = b2bData.find(x=>x.id===id); if(!p) return;
+  document.getElementById('b-id').value=id; document.getElementById('b-name').value=p.name; document.getElementById('b-qty').value=p.qty;
+  document.getElementById('b-status').value=p.status;
+  document.getElementById('modal-b2b-title').textContent = p.name;
+  openModal('modal-b2b');
+}
+function b2bSave() {
+  const id = parseInt(document.getElementById('b-id').value)||null;
+  const name = document.getElementById('b-name').value.trim();
+  const type = document.getElementById('b-type').value;
+  const qty = parseInt(document.getElementById('b-qty').value)||0;
+  const status = document.getElementById('b-status').value;
+  if (!name) { toast('⚠','',currentLang==='en'?'Enter institution name':currentLang==='fr'?"Entrez le nom de l'institution":'أدخل اسم المؤسسة'); return; }
+  if (id) {
+    const idx = b2bData.findIndex(p=>p.id===id);
+    if(idx>=0) b2bData[idx]={...b2bData[idx],name,type,qty,status};
+    toast('✅',t('saved'),name);
+  } else {
+    const nid = b2bData.length ? Math.max(...b2bData.map(p=>p.id))+1 : 1;
+    b2bData.push({id:nid,name,type,qty,status});
+    toast('✅',t('add_partner'),name);
+  }
+  renderB2B(); closeModal('modal-b2b');
+}
+function b2bDelete(id) {
+  const p = b2bData.find(x=>x.id===id); if(!p) return;
+  showConfirm(`${t('confirm_delete')}: ${p.name}`, t('confirm_desc'), () => {
+    b2bData = b2bData.filter(x=>x.id!==id);
+    renderB2B(); toast('🗑',t('delete'),p.name);
+  });
+}
+
+// ===== ANALYTICS =====
+function renderAnalytics() {
+  const hasData = erpData.length || b2bData.length;
+  document.getElementById('analytics-empty').style.display = hasData?'none':'block';
+  document.getElementById('analytics-content').style.display = hasData?'block':'none';
+  if (!hasData) return;
+  // Product chart
+  const chart = document.getElementById('analytics-chart');
+  const products = ['R1','R2','R3','EL'];
+  const labels = {'R1':'R1','R2':'R2','R3':'R3','EL':'Elixir'};
+  const colors = {'R1':'#F0C14A','R2':' #E8713F','R3':'#5BAFD4','EL':'#F0A500'};
+  const counts = {};
+  products.forEach(p => counts[p] = erpData.filter(r=>r.product.startsWith(p)||r.product.includes(p==='EL'?'Elixir':p)).reduce((a,b)=>a+b.qty,0));
+  const maxVal = Math.max(...Object.values(counts),1);
+  chart.innerHTML = products.map(p => `
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:50px;font-size:11px;color:var(--txt3);text-align:${currentLang==='ar'?'right':'left'}">${labels[p]}</div>
+      <div style="flex:1;height:18px;background:rgba(255,220,160,0.05);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${Math.round(counts[p]/maxVal*100)}%;background:${colors[p]};border-radius:3px;transition:width 0.5s"></div>
+      </div>
+      <div style="width:40px;font-family:'Space Mono',monospace;font-size:11px;color:${colors[p]}">${counts[p]}</div>
+    </div>`).join('');
+  // B2B table
+  const b2bCont = document.getElementById('b2b-analytics-content');
+  if (!b2bData.length) {
+    b2bCont.innerHTML = `<div class="empty-state" style="padding:14px"><span class="empty-state-icon" style="font-size:22px">🤝</span><div style="font-size:12px;color:var(--txt3)">${t('add_partners_first')}</div></div>`;
+  } else {
+    b2bCont.innerHTML = `<table class="btable"><thead><tr><th>${t('partner_name')}</th><th>${t('partner_type')}</th><th>${t('monthly_qty')}</th><th>${t('th_status')}</th></tr></thead><tbody>${b2bData.map(p=>`<tr><td>${p.name}</td><td>${p.type}</td><td class="mono">${p.qty||'—'}</td><td><span class="badge ${p.status==='active'?'b-ok':p.status==='pending'?'b-warn':'b-ind'}">${t(p.status)||p.status}</span></td></tr>`).join('')}</tbody></table>`;
+  }
+}
+
+// ===== TICKETS =====
+function addTicket() { openModal('modal-ticket'); }
+function saveTicket() {
+  const client = document.getElementById('tk-client').value.trim();
+  const prio = document.getElementById('tk-prio').value;
+  const subject = document.getElementById('tk-subject').value.trim();
+  const desc = document.getElementById('tk-desc').value.trim();
+  if (!client || !subject) { toast('⚠','', currentLang==='en'?'Fill required fields':currentLang==='fr'?'Remplissez les champs requis':'أكمل الحقول المطلوبة'); return; }
+  const id = '#T-' + String(1000 + ticketData.length + 1);
+  ticketData.push({id, client, prio, subject, desc, status:prio==='urgent'?'urgent':'open', time: new Date()});
+  renderTickets(); closeModal('modal-ticket');
+  ['tk-client','tk-subject','tk-desc'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
+  toast('🎫', t('new_ticket'), id);
+  document.getElementById('float-badge').textContent = ticketData.filter(t=>t.status==='urgent').length;
+  document.getElementById('client-badge').textContent = ticketData.length;
+}
+
+function renderTickets(filter='all') {
+  const list = document.getElementById('tickets-list');
+  const empty = document.getElementById('tickets-empty');
+  const filtered = filter==='all'?ticketData:ticketData.filter(tk=>tk.status===filter);
+  const total = ticketData.length;
+  const openCount = ticketData.filter(t=>t.status==='open').length;
+  const urgentCount = ticketData.filter(t=>t.status==='urgent').length;
+  document.getElementById('cnt-all').textContent = total;
+  document.getElementById('cnt-open').textContent = openCount;
+  document.getElementById('cnt-urgent').textContent = urgentCount;
+  document.getElementById('stat-total-tickets').textContent = total;
+  document.getElementById('stat-open-tickets').textContent = openCount;
+  document.getElementById('stat-urgent-tickets').textContent = urgentCount;
+  if (!total) { empty.style.display='block'; list.innerHTML=''; return; }
+  empty.style.display='none';
+  const prioColor = {urgent:'pr-h',med:'pr-m',low:'pr-l'};
+  const prioLabel = {urgent:t('urgent'),med:t('medium'),low:t('low')};
+  const badgeClass = {urgent:'b-exp',med:'b-warn',low:'b-ok'};
+  list.innerHTML = filtered.map(tk => `
+    <div class="ticket">
+      <div class="t-prio ${prioColor[tk.prio]||'pr-l'}"></div>
+      <div style="flex:1">
+        <div class="t-id">${tk.id} — ${tk.client}</div>
+        <div class="t-subj">${tk.subject}</div>
+        ${tk.desc?`<div class="t-prev">${tk.desc.slice(0,80)}${tk.desc.length>80?'...':''}</div>`:''}
+      </div>
+      <div class="t-meta">
+        <div class="t-time">${formatTime(tk.time)}</div>
+        <span class="badge ${badgeClass[tk.prio]||'b-ok'}" style="font-size:9px">${prioLabel[tk.prio]||tk.prio}</span>
+        <button class="btn-del" style="font-size:9px;padding:2px 5px" onclick="deleteTicket('${tk.id}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function deleteTicket(id) {
+  showConfirm(`${t('confirm_delete')}: ${id}`, t('confirm_desc'), () => {
+    ticketData = ticketData.filter(t=>t.id!==id);
+    renderTickets();
+    document.getElementById('float-badge').textContent = ticketData.filter(t=>t.status==='urgent').length;
+    document.getElementById('client-badge').textContent = ticketData.length;
+    toast('🗑',t('delete'),id);
+  });
+}
+
+function filterTickets(f) { renderTickets(f); }
+
+function formatTime(d) {
+  const now = new Date(); const diff = Math.floor((now - d)/60000);
+  if (diff < 1) return currentLang==='en'?'Now':currentLang==='fr'?'Maintenant':'الآن';
+  if (diff < 60) return diff + (currentLang==='en'?' min':currentLang==='fr'?' min':' دقيقة');
+  const h = Math.floor(diff/60);
+  return h + (currentLang==='en'?' hr':currentLang==='fr'?' h':' ساعة');
+}
+
+// ===== CULTURAL TABS =====
+function switchCult(id, el) {
+  document.querySelectorAll('.cult-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.cult-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('cult-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ===== MODAL HELPERS =====
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function showConfirm(title, desc, cb) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-desc').textContent = desc;
+  confirmCallback = cb;
+  document.getElementById('confirm-dialog').classList.add('open');
+  document.getElementById('confirm-ok').onclick = () => { if(confirmCallback) confirmCallback(); closeConfirm(); };
+}
+function closeConfirm() { document.getElementById('confirm-dialog').classList.remove('open'); confirmCallback=null; }
+
+// ===== TOAST =====
+function toast(icon, title, desc) {
+  const c = document.getElementById('toast-c');
+  const d = document.createElement('div'); d.className='toast';
+  d.innerHTML = `<div class="t-icon">${icon}</div><div><div class="t-title">${title}</div>${desc?`<div class="t-desc">${desc}</div>`:''}</div>`;
+  c.appendChild(d);
+  setTimeout(() => { d.style.cssText='opacity:0;transform:translateX(-12px);transition:all 0.25s'; setTimeout(()=>d.remove(),250); }, 3200);
+}
+
+// ===== STAR RATING =====
+function rateStar(el) {
+  const bar = el.parentElement;
+  const stars = Array.from(bar.children);
+  const idx = stars.indexOf(el);
+  stars.forEach((s,i) => s.classList.toggle('on', i<=idx));
+  const row = bar.parentElement;
+  const sc = row.querySelector('.crit-score');
+  if(sc) sc.textContent = (idx+1)+'/5';
+}
+
+// ===== KEFIRBOT — CLAUDE AI =====
+const SYSTEM_PROMPTS = {
+  ar: `أنت KefirBot، المساعد الذكي لمنصة KefirSahara. تخصصك في:
+1. منتجات الكفير الصحراوي: R1 (هضم)، R2 (جمال)، R3 (طاقة)، Elixir Tifinagh — خل كفير وظيفي 4 صيغ (premium)
+2. العلم: البروبيوتيك، CFU، pH، Lactobacillus، التخمر
+3. ثقافة الطوارق وتراث تمنراست وجنوب الجزائر
+4. الأعشاب الصحراوية: مكونات نباتية وظيفية محلية
+5. نظام QR SRLN وبراءة الاختراع INAPI Claim 5+6
+أجب بالعربية الفصحى الواضحة. لا تفصح عن وصفات دقيقة أو بيانات سرية.`,
+  en: `You are KefirBot, the intelligent assistant for KefirSahara platform. Your specialties:
+1. Saharan kefir products: R1 (digestion), R2 (beauty), R3 (energy), Elixir Tifinagh — خل كفير وظيفي 4 صيغ (premium)
+2. Science: probiotics, CFU, pH, Lactobacillus, fermentation
+3. Tuareg culture and heritage of Tamanrasset and southern Algeria
+4. Saharan herbs: local functional plant ingredients
+5. Smart QR system SRLN and INAPI patent Claim 5+6
+Answer clearly in English. Do not share exact recipes or confidential data.`,
+  fr: `Vous êtes KefirBot, l'assistant intelligent de la plateforme KefirSahara. Vos spécialités:
+1. Produits de kéfir saharien: R1 (digestion), R2 (beauté), R3 (énergie), Elixir Tifinagh — خل كفير وظيفي 4 صيغ (premium)
+2. Science: probiotiques, CFU, pH, Lactobacillus, fermentation
+3. Culture Touareg et patrimoine de Tamanrasset et du sud algérien
+4. Herbes sahariennes: ingrédients végétaux fonctionnels locaux
+5. Système QR intelligent SRLN et brevet INAPI Claim 5+6
+Répondez clairement en français. Ne partagez pas de recettes exactes ni de données confidentielles.`
+};
+
+let chatHistory = [];
+
+// ===== API KEY MANAGEMENT =====
+// *** ضع مفتاح API هنا مرة واحدة وسيعمل دائماً ***
+// KefirBot powered by Netlify Functions — API key is on the server
+
+
+function showApiKeyModal() { /* Not needed - API handled server-side */ }
+function saveApiKeyFromModal() { /* Not needed - API handled server-side */ }
+
+function updateBotStatus() {
+  const badge = document.getElementById('bot-badge');
+  const status = document.getElementById('bot-status');
+  const cs = document.getElementById('claude-status');
+  if(badge){ badge.textContent = 'Claude AI ✅'; badge.className='badge b-ok'; }
+  if(status) status.textContent = '● Claude Sonnet — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
+  if(cs) cs.textContent = currentLang==='en'?'✅ Claude API — Active':currentLang==='fr'?'✅ Claude API — Actif':'✅ Claude API — نشط';
+}
+
+async function sendMsg() {
+  const inp = document.getElementById('chat-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+
+  addMsg(txt, 'user');
+  chatHistory.push({role:'user', content:txt});
+  inp.value = '';
+
+  const th = document.getElementById('thinking');
+  th.classList.add('show');
+  document.getElementById('bot-status').textContent = '● ' + t('thinking');
+
+  try {
+    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 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'
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 1000,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPTS[currentLang] || SYSTEM_PROMPTS.ar },
+          ...chatHistory.slice(-10)
+        ]
+      })
+    });
+
+    const data = await resp.json();
+    th.classList.remove('show');
+    document.getElementById('bot-status').textContent = '● Claude Sonnet — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
+
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      const reply = data.choices[0].message.content;
+      chatHistory.push({role:'assistant', content:reply});
+      addMsg(reply, 'bot');
+    } else if (data.error) {
+      addMsg('⚠ ' + (data.error.message || 'Error'), 'bot');
+    } else {
+      addMsg(currentLang==='en'?'Unexpected response.':currentLang==='fr'?'Réponse inattendue.':'استجابة غير متوقعة.', 'bot');
+    }
+  } catch(e) {
+    th.classList.remove('show');
+    document.getElementById('bot-status').textContent = '● Claude Sonnet — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
+    addMsg(currentLang==='en'?'⚠ Connection error.':currentLang==='fr'?'⚠ Erreur de connexion.':'⚠ خطأ في الاتصال.', 'bot');
+  }
+}
+
+function sendQ(q) { document.getElementById('chat-input').value = q; sendMsg(); }
+
+function addMsg(txt, type) {
+  const c = document.getElementById('chat-msgs');
+  const d = document.createElement('div'); d.className = 'msg ' + type;
+  const formatted = txt.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  d.innerHTML = `<div class="msg-av ${type}">${type==='bot'?'🤖':'👤'}</div><div class="bubble">${formatted}</div>`;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  // ===== DEMO DATA — Pre-loaded =====
+  erpData = [
+    {id:'LOT-2026-041',product:'R1 — نجمة الأرض',qty:180,ph:3.8,cfu:'>6 log UFC/mL',exp:'2026-07-15',status:'ok'},
+    {id:'LOT-2026-040',product:'R2 — الكركديه',qty:210,ph:3.5,cfu:'>6 log UFC/mL',exp:'2026-07-10',status:'ok'},
+    {id:'LOT-2026-039',product:'R3 — الزنجبيل',qty:195,ph:3.7,cfu:'>6 log UFC/mL',exp:'2026-07-08',status:'ok'},
+    {id:'LOT-2026-038',product:'Elixir Pur — خل كفير غير منكّه',qty:45,ph:3.1,cfu:'>6 log UFC/mL',exp:'2026-09-01',status:'ok'},
+    {id:'LOT-2026-037',product:'Elixir Tifinagh — الكركديه',qty:40,ph:3.2,cfu:'>6 log UFC/mL',exp:'2026-08-20',status:'ok'},
+    {id:'LOT-2026-036',product:'R1 — نجمة الأرض',qty:160,ph:3.9,cfu:'>6 log UFC/mL',exp:'2026-05-10',status:'warn'},
+    {id:'LOT-2026-035',product:'R3 — الزنجبيل',qty:140,ph:3.6,cfu:'>6 log UFC/mL',exp:'2026-07-05',status:'ok'},
+  ];
+
+  b2bData = [
+    {id:1,name:'فندق تمنراست بلازا',type:'🏨 فندق ⭐⭐⭐',qty:120,status:'active'},
+    {id:2,name:'كامب الهقار السياحي',type:'⛺ كامب سياحي',qty:80,status:'active'},
+    {id:3,name:'وكالة صحراء تورز',type:'✈ وكالة سياحية',qty:60,status:'active'},
+    {id:4,name:'مطعم أزواد',type:'🍽 مطعم صحي',qty:45,status:'active'},
+    {id:5,name:'بارافارماسي تمنراست',type:'💊 شبه صيدلية',qty:90,status:'active'},
+    {id:6,name:'فندق الجنوب',type:'🏨 فندق ⭐⭐',qty:70,status:'pending'},
+  ];
+
+  ticketData = [
+    {id:'#T-1001',client:'كامب الهقار',prio:'urgent',subject:'نفاد مخزون R3 — الزنجبيل',desc:'الكامب يحتاج توريداً عاجلاً لـ R3',status:'urgent',time:new Date(Date.now()-7200000)},
+    {id:'#T-1002',client:'فندق تمنراست بلازا',prio:'med',subject:'طلب توريد يونيو — R1 + R2',desc:'طلب 120 قارورة R1 + 80 قارورة R2 لشهر يونيو 2026',status:'open',time:new Date(Date.now()-86400000)},
+    {id:'#T-1003',client:'بارافارماسي تمنراست',prio:'low',subject:'استفسار عن Elixir',desc:'طلب معلومات عن Elixir Pur والتوريد',status:'open',time:new Date(Date.now()-172800000)},
+  ];
+
+  renderDashboard();
+  renderERP();
+  renderB2B();
+  renderQR();
+  renderTickets();
+  renderAnalytics();
+  // Initial lang setup
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    const val = t(key);
+    if (val && val !== key) {
+      if (el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder=val;
+      else el.textContent=val;
+    }
+  });
+  updateBotStatus();
+  setTimeout(()=>toast('🚀','KefirSahara v4','ⵜⵉⴼⵉⵏⴱⵖ — جاهز للعمل'), 400);
+  setTimeout(()=>toast('🌐','AR · FR · EN ✅', ''), 2200);
+  setTimeout(()=>toast('🤖','KefirBot AI','✅ مدعوم بـ Claude Sonnet'), 4000);
+});
+</script>
+</body>
+</html>
