@@ -1609,7 +1609,7 @@ function setLang(lang) {
   if(th) th.textContent = t('thinking');
   // Update bot status
   const bs = document.getElementById('bot-status');
-  if(bs) bs.textContent = '● Claude Sonnet — ' + (lang==='en'?'Ready':lang==='fr'?'Prêt':'جاهز');
+  if(bs) bs.textContent = '● Gemini AI — ' + (lang==='en'?'Ready':lang==='fr'?'Prêt':'جاهز');
   const cs = document.getElementById('claude-status');
   if(cs) cs.textContent = lang==='en'?'Connected — Claude API':lang==='fr'?'Connecté — Claude API':'متصل — Claude API';
   // Refresh renders
@@ -2127,8 +2127,8 @@ function updateBotStatus() {
   const status = document.getElementById('bot-status');
   const cs = document.getElementById('claude-status');
   if(badge){ badge.textContent = 'Claude AI ✅'; badge.className='badge b-ok'; }
-  if(status) status.textContent = '● Claude Sonnet — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
-  if(cs) cs.textContent = currentLang==='en'?'✅ Claude API — Active':currentLang==='fr'?'✅ Claude API — Actif':'✅ Claude API — نشط';
+  if(status) status.textContent = '● Gemini AI — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
+  if(cs) cs.textContent = currentLang==='en'?'✅ Gemini AI — Active':currentLang==='fr'?'✅ Claude API — Actif':'✅ Claude API — نشط';
 }
 
 async function sendMsg() {
@@ -2145,28 +2145,27 @@ async function sendMsg() {
   document.getElementById('bot-status').textContent = '● ' + t('thinking');
 
   try {
-    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const systemPrompt = SYSTEM_PROMPTS[currentLang] || SYSTEM_PROMPTS.ar;
+    const geminiContents = chatHistory.slice(-10).map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+
+    const resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAFMAJZrk_nZaGUz3k8-Y8u3QWBTj5ARig', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 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'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        max_tokens: 1000,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPTS[currentLang] || SYSTEM_PROMPTS.ar },
-          ...chatHistory.slice(-10)
-        ]
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents: geminiContents
       })
     });
 
     const data = await resp.json();
     th.classList.remove('show');
-    document.getElementById('bot-status').textContent = '● Claude Sonnet — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
+    document.getElementById('bot-status').textContent = '● Gemini AI — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
 
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      const reply = data.choices[0].message.content;
+    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+      const reply = data.candidates[0].content.parts[0].text;
       chatHistory.push({role:'assistant', content:reply});
       addMsg(reply, 'bot');
     } else if (data.error) {
@@ -2176,8 +2175,8 @@ async function sendMsg() {
     }
   } catch(e) {
     th.classList.remove('show');
-    document.getElementById('bot-status').textContent = '● Claude Sonnet — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
-    addMsg(currentLang==='en'?'⚠ Connection error.':currentLang==='fr'?'⚠ Erreur de connexion.':'⚠ خطأ في الاتصال.', 'bot');
+    document.getElementById('bot-status').textContent = '● Gemini AI — ' + (currentLang==='en'?'Ready':currentLang==='fr'?'Prêt':'جاهز');
+    addMsg(currentLang==='en'?'⚠ Connection error. Check your internet.':currentLang==='fr'?'⚠ Erreur de connexion.':'⚠ خطأ في الاتصال. تحقق من الإنترنت.', 'bot');
   }
 }
 
